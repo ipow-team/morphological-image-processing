@@ -18,6 +18,9 @@ namespace MorphologicalImageProcessing.View.Components.AlgorithmSelection
             morphologicalAlgorithmsService = new MorphologicalAlgorithmsService();
             InitializeComponent();
             ConfigureAlgorithmSelectionComboBox();
+            //baseMorphologicalAlgorithmConfigurationComponent1
+            //baseMorphologicalAlgorithmConfigurationComponent1.setDefaultConfigurationComponentVisibility(true);
+            //baseMorphologicalAlgorithmConfigurationComponent1 = new DefaultMorphologicalAlgorithmConfigurationComponent();
         }
 
         private void ConfigureAlgorithmSelectionComboBox()

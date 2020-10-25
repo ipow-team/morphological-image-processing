@@ -18,7 +18,7 @@ namespace MorphologicalImageProcessing.Core.Algorithms
         }
     }
 
-    abstract class MorphologicalAlgorithm<T>: Algorithm where T: MorphologicalAlgorithmConfiguration
+    abstract class MorphologicalAlgorithm<T> : Algorithm where T : MorphologicalAlgorithmConfiguration
     {
         protected abstract Image Apply(Image image, T configuration);
 
@@ -28,7 +28,16 @@ namespace MorphologicalImageProcessing.Core.Algorithms
         {
             return Apply(image, (T)configuration);
         }
+
+        public Type GetConfigurationClass() {
+            return GetType().GetGenericTypeDefinition();
+        }
     }
 
     interface MorphologicalAlgorithmConfiguration { }
+
+    class DefaultMorphologicalAlgorithmConfiguration: MorphologicalAlgorithmConfiguration
+    {
+        public int BoxSize { get; set; } = 3;
+    }
 }
