@@ -3,9 +3,9 @@ using System.Drawing;
 
 namespace MorphologicalImageProcessing.Core.Algorithms
 {
-    class Dilatation : MorphologicalAlgorithm<DefaultMorphologicalAlgorithmConfiguration>
+    class Dilatation : MorphologicalAlgorithm<EmptyMorphologicalAlgorithmConfiguration>
     {
-        protected override Image Apply(Image image, DefaultMorphologicalAlgorithmConfiguration configuration)
+        protected override Image Apply(Image image, EmptyMorphologicalAlgorithmConfiguration configuration)
         {
             throw new NotImplementedException();
         }

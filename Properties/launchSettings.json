@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "MorphologicalImageProcessing": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    },
+    "Debug": {
+      "commandName": "Executable"
+    }
+  }
+}

@@ -3,11 +3,13 @@ using System.Drawing;
 
 namespace MorphologicalImageProcessing.Core.Algorithms
 {
-    interface Algorithm
+    public interface IAlgorithm
     {
         String GetName();
 
-        Image Apply(Image image, MorphologicalAlgorithmConfiguration configuration);
+        Image Apply(Image image, IMorphologicalAlgorithmConfiguration configuration);
+
+        Type GetConfigurationClass();
 
         public String Name
         {
@@ -18,26 +20,31 @@ namespace MorphologicalImageProcessing.Core.Algorithms
         }
     }
 
-    abstract class MorphologicalAlgorithm<T> : Algorithm where T : MorphologicalAlgorithmConfiguration
+    abstract class MorphologicalAlgorithm<T> : IAlgorithm where T : IMorphologicalAlgorithmConfiguration
     {
         protected abstract Image Apply(Image image, T configuration);
 
         public abstract String GetName();
 
-        public Image Apply(Image image, MorphologicalAlgorithmConfiguration configuration)
+        public Image Apply(Image image, IMorphologicalAlgorithmConfiguration configuration)
         {
             return Apply(image, (T)configuration);
         }
 
         public Type GetConfigurationClass() {
-            return GetType().GetGenericTypeDefinition();
+            return typeof(T);
         }
     }
 
-    interface MorphologicalAlgorithmConfiguration { }
+    public interface IMorphologicalAlgorithmConfiguration { }
 
-    class DefaultMorphologicalAlgorithmConfiguration: MorphologicalAlgorithmConfiguration
+    class DefaultMorphologicalAlgorithmConfiguration: IMorphologicalAlgorithmConfiguration
     {
         public int BoxSize { get; set; } = 3;
+    }
+
+    class EmptyMorphologicalAlgorithmConfiguration: IMorphologicalAlgorithmConfiguration
+    {
+
     }
 }

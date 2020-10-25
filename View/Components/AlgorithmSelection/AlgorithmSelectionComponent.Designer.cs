@@ -32,7 +32,7 @@
             this.SelectAlgorithmLabel = new System.Windows.Forms.Label();
             this.AlgorithmComboBox = new System.Windows.Forms.ComboBox();
             this.AlgorithmSelectionComboBoxBinding = new System.Windows.Forms.BindingSource(this.components);
-            this.baseMorphologicalAlgorithmConfigurationComponent1 = new System.Windows.Forms.UserControl();
+            this.baseAlgorithmConfigurationComponent1 = new MorphologicalImageProcessing.View.Components.AlgorithmSelection.Configurations.BaseAlgorithmConfigurationComponent();
             ((System.ComponentModel.ISupportInitialize)(this.AlgorithmSelectionComboBoxBinding)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,19 +52,21 @@
             this.AlgorithmComboBox.Name = "AlgorithmComboBox";
             this.AlgorithmComboBox.Size = new System.Drawing.Size(181, 23);
             this.AlgorithmComboBox.TabIndex = 1;
+            this.AlgorithmComboBox.SelectedValueChanged += new System.EventHandler(this.AlgorithmComboBox_SelectedValueChanged);
             // 
-            // baseMorphologicalAlgorithmConfigurationComponent1
+            // baseAlgorithmConfigurationComponent1
             // 
-            this.baseMorphologicalAlgorithmConfigurationComponent1.Location = new System.Drawing.Point(14, 68);
-            this.baseMorphologicalAlgorithmConfigurationComponent1.Name = "baseMorphologicalAlgorithmConfigurationComponent1";
-            this.baseMorphologicalAlgorithmConfigurationComponent1.Size = new System.Drawing.Size(181, 225);
-            this.baseMorphologicalAlgorithmConfigurationComponent1.TabIndex = 2;
+            this.baseAlgorithmConfigurationComponent1.BackColor = System.Drawing.SystemColors.Highlight;
+            this.baseAlgorithmConfigurationComponent1.Location = new System.Drawing.Point(14, 68);
+            this.baseAlgorithmConfigurationComponent1.Name = "baseAlgorithmConfigurationComponent1";
+            this.baseAlgorithmConfigurationComponent1.Size = new System.Drawing.Size(181, 225);
+            this.baseAlgorithmConfigurationComponent1.TabIndex = 2;
             // 
             // AlgorithmSelectionComponent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.baseMorphologicalAlgorithmConfigurationComponent1);
+            this.Controls.Add(this.baseAlgorithmConfigurationComponent1);
             this.Controls.Add(this.AlgorithmComboBox);
             this.Controls.Add(this.SelectAlgorithmLabel);
             this.Name = "AlgorithmSelectionComponent";
@@ -80,6 +82,6 @@
         private System.Windows.Forms.Label SelectAlgorithmLabel;
         private System.Windows.Forms.ComboBox AlgorithmComboBox;
         private System.Windows.Forms.BindingSource AlgorithmSelectionComboBoxBinding;
-        private System.Windows.Forms.UserControl baseMorphologicalAlgorithmConfigurationComponent1;
+        private Configurations.BaseAlgorithmConfigurationComponent baseAlgorithmConfigurationComponent1;
     }
 }

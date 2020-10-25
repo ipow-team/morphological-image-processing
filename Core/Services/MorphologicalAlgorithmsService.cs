@@ -4,12 +4,12 @@ namespace MorphologicalImageProcessing.Core.Services
 {
     class MorphologicalAlgorithmsService
     {
-        private static IList<Algorithm> _algoritms = new List<Algorithm>() {
+        private static IList<IAlgorithm> _algoritms = new List<IAlgorithm>() {
             new Dilatation(),
             new Erosion()
         };
 
-        public IList<Algorithm> GetAllAlgorithms()
+        public IList<IAlgorithm> GetAllAlgorithms()
         {
             return _algoritms;
         }
