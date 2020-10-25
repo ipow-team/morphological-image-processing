@@ -28,20 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.algorithmSelectionComponent1 = new MorphologicalImageProcessing.View.Components.AlgorithmSelection.AlgorithmSelectionComponent();
             this.SuspendLayout();
             // 
-            // Main
+            // algorithmSelectionComponent1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Name = "Main";
-            this.Text = "Form1";
+            this.algorithmSelectionComponent1.Location = new System.Drawing.Point(12, 12);
+            this.algorithmSelectionComponent1.Name = "algorithmSelectionComponent1";
+            this.algorithmSelectionComponent1.Size = new System.Drawing.Size(209, 309);
+            this.algorithmSelectionComponent1.TabIndex = 0;
+            // 
+            // MainView
+            // 
+            this.ClientSize = new System.Drawing.Size(1072, 587);
+            this.Controls.Add(this.algorithmSelectionComponent1);
+            this.Name = "MainView";
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private View.Components.AlgorithmSelection.AlgorithmSelectionComponent algorithmSelectionComponent1;
     }
 }
 
