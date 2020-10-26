@@ -6,10 +6,26 @@
         xmlns:local="clr-namespace:morphological_image_processing_wpf"
         xmlns:Configurations="clr-namespace:morphological_image_processing_wpf.View.Components.AlgorithmsSelection.Configurations" x:Class="morphological_image_processing_wpf.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-        <Configurations:AlgorithmSelectionComponent HorizontalAlignment="Left" Height="414" Margin="10,0,0,0" VerticalAlignment="Center" Width="184"/>
-
+        Title="MainWindow" Height="720" Width="1280">
+    <Window.Resources>
+        <Thickness x:Key="CommonMargin" Left="10" Right="10" Top="10" Bottom="10" />
+        <Style x:Key="GridElementStyle" TargetType="{x:Type Control}">
+            <Setter Property="Margin" Value="{StaticResource CommonMargin}"/>
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+    </Window.Resources>
+    <Grid x:Name="MainGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MaxWidth="250" />
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition MaxHeight="100"/>
+        </Grid.RowDefinitions>
+        <Configurations:AlgorithmSelectionComponent Grid.Column="0" Grid.Row="0" Style="{StaticResource GridElementStyle}" Background="Red" />
+        <Button x:Name="StartProcessingButton" Grid.Row="1" Content="Process" Style="{StaticResource GridElementStyle}" />
+        <Rectangle x:Name="REPLACE_WITH_IMAGE_DISPLAY" Fill="Green" Grid.Column="1" Grid.RowSpan="2" Margin="{StaticResource CommonMargin}"/>
     </Grid>
 </Window>

@@ -16,6 +16,7 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
             Control controlComponent = GetControlComponent();
             controlComponent.HorizontalAlignment = HorizontalAlignment.Stretch;
             controlComponent.VerticalAlignment = VerticalAlignment.Stretch;
+            controlComponent.Margin = new Thickness(10, 10, 10, 10);
         }
 
         public void SetSelected(bool isSelected)

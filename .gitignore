@@ -353,3 +353,4 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 /MorphologicalImageProcessing.sln
+/morphological-image-processing-wpf.sln

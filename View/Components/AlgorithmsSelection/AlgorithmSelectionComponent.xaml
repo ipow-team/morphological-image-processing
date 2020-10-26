@@ -6,9 +6,13 @@
              xmlns:local="clr-namespace:morphological_image_processing_wpf.View.Components.AlgorithmsSelection.Configurations"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="200">
-    <Grid Background="White">
-        <Label Content="Select Algorithm" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="180"/>
-        <ComboBox x:Name="AlgorithmComboBox" HorizontalAlignment="Center" Margin="0,36,0,0" VerticalAlignment="Top" Width="180" Height="28" SelectionChanged="AlgorithmComboBox_SelectionChanged"/>
-        <local:BaseAlgorithmConfigurationComponent x:Name="baseAlgorithmConfigurationComponent"  HorizontalAlignment="Center" Height="331" Margin="0,69,0,0" VerticalAlignment="Top" Width="180"/>
-    </Grid>
+    <DockPanel Height="Auto" Width="Auto" LastChildFill="True" Margin="10,10,10,10">
+        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+            <Label Content="Select Algorithm" HorizontalAlignment="Center" VerticalAlignment="Top" Width="180"/>
+            <ComboBox x:Name="AlgorithmComboBox" HorizontalAlignment="Center" VerticalAlignment="Top" Width="180" Height="28" SelectionChanged="AlgorithmComboBox_SelectionChanged"/>
+        </StackPanel>
+        <ScrollViewer DockPanel.Dock="Bottom" VerticalScrollBarVisibility="Auto">
+            <local:BaseAlgorithmConfigurationComponent x:Name="baseAlgorithmConfigurationComponent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+        </ScrollViewer>
+    </DockPanel>
 </UserControl>
