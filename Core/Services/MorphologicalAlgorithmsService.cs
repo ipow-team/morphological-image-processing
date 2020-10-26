@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 namespace MorphologicalImageProcessing.Core.Services
 {
-    class MorphologicalAlgorithmsService
+    public class MorphologicalAlgorithmsService
     {
-        private static IList<IAlgorithm> _algoritms = new List<IAlgorithm>() {
+        private static readonly IList<IAlgorithm> _algoritms = new List<IAlgorithm>() {
             new Dilatation(),
             new Erosion()
         };
