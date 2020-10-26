@@ -5,10 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:morphological_image_processing_wpf.View.Components.AlgorithmsSelection.Configurations"
              mc:Ignorable="d">
-    <DockPanel Height="Auto">
+    <StackPanel Height="Auto">
         <StackPanel VerticalAlignment="Top">
             <Label Content="Matrix Size (min. 2)&#xD;&#xA;" HorizontalAlignment="Stretch" Height="28"/>
             <TextBox x:Name="MatrixSizeSelector" Text="TextBox" TextWrapping="Wrap" Height="25" HorizontalAlignment="Stretch"/>
         </StackPanel>
-    </DockPanel>
+    </StackPanel>
 </UserControl>

@@ -21,7 +21,19 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
 
         public void SetSelected(bool isSelected)
         {
-           GetControlComponent().Visibility = isSelected ? Visibility.Visible : Visibility.Hidden;
+            Control controlComponent = GetControlComponent();
+            if(isSelected)
+            {
+                controlComponent.Visibility = Visibility.Visible;
+                controlComponent.MaxHeight = double.PositiveInfinity;
+                controlComponent.MaxWidth = double.PositiveInfinity;
+            }
+            else
+            {
+                controlComponent.Visibility = Visibility.Hidden;
+                controlComponent.MaxHeight = 0.0001;
+                controlComponent.MaxWidth = 0.0001;
+            }
         }
     }
 }
