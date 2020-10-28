@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:morphological_image_processing_wpf"
-        xmlns:Configurations="clr-namespace:morphological_image_processing_wpf.View.Components.AlgorithmsSelection.Configurations" x:Class="morphological_image_processing_wpf.MainWindow"
+        xmlns:Configurations="clr-namespace:morphological_image_processing_wpf.View.Components.AlgorithmsSelection.Configurations" xmlns:displayimage="clr-namespace:morphological_image_processing_wpf.View.Components.DisplayImage" x:Class="morphological_image_processing_wpf.MainWindow"
+        xmlns:Display="clr-namespace:morphological_image_processing_wpf.View.Components.DisplayImage"
         mc:Ignorable="d"
         Title="MainWindow" Height="720" Width="1280">
     <Window.Resources>
@@ -22,10 +23,12 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition MaxHeight="100"/>
+            <RowDefinition MaxHeight="60"/>
+            <RowDefinition MaxHeight="60"/>
         </Grid.RowDefinitions>
-        <Configurations:AlgorithmSelectionComponent Grid.Column="0" Grid.Row="0" Style="{StaticResource GridElementStyle}" Background="Red" />
-        <Button x:Name="StartProcessingButton" Grid.Row="1" Content="Process" Style="{StaticResource GridElementStyle}" />
-        <Rectangle x:Name="REPLACE_WITH_IMAGE_DISPLAY" Fill="Green" Grid.Column="1" Grid.RowSpan="2" Margin="{StaticResource CommonMargin}"/>
+        <Configurations:AlgorithmSelectionComponent x:Name="AlgorithmSelectionComponent" Grid.Column="0" Grid.Row="0" Style="{StaticResource GridElementStyle}" />
+        <Button x:Name="LoadImageButton" Content="Load Image" Grid.Column="0" Grid.Row="1" Click="LoadImageBtnClick" Style="{StaticResource GridElementStyle}"/>
+        <Button x:Name="StartProcessingButton" Grid.Column="0" Grid.Row="2" Content="Process" Style="{StaticResource GridElementStyle}" Click="StartProcessingButton_Click"/>
+        <Display:DisplayImageComponent x:Name="DisplayImageComponent" Grid.Column="1" Grid.RowSpan="3" Style="{StaticResource GridElementStyle}"/>
     </Grid>
 </Window>
