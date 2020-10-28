@@ -23,12 +23,12 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition MaxHeight="100"/>
-            <RowDefinition MaxHeight="100"/>
+            <RowDefinition MaxHeight="60"/>
+            <RowDefinition MaxHeight="60"/>
         </Grid.RowDefinitions>
-        <Configurations:AlgorithmSelectionComponent Grid.Column="0" Grid.Row="0" Style="{StaticResource GridElementStyle}" Background="Red" />
+        <Configurations:AlgorithmSelectionComponent x:Name="AlgorithmSelectionComponent" Grid.Column="0" Grid.Row="0" Style="{StaticResource GridElementStyle}" />
         <Button x:Name="LoadImageButton" Content="Load Image" Grid.Column="0" Grid.Row="1" Click="LoadImageBtnClick" Style="{StaticResource GridElementStyle}"/>
-        <Button x:Name="StartProcessingButton" Grid.Column="0" Grid.Row="2" Content="Process" Style="{StaticResource GridElementStyle}"/>
-        <Display:DisplayImageComponent Grid.Column="1" Grid.Row="0"/>
+        <Button x:Name="StartProcessingButton" Grid.Column="0" Grid.Row="2" Content="Process" Style="{StaticResource GridElementStyle}" Click="StartProcessingButton_Click"/>
+        <Display:DisplayImageComponent x:Name="DisplayImageComponent" Grid.Column="1" Grid.RowSpan="3" Style="{StaticResource GridElementStyle}"/>
     </Grid>
 </Window>

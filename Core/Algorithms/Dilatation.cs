@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Windows.Controls;
+using System.Drawing;
 
 namespace MorphologicalImageProcessing.Core.Algorithms
 {
     class Dilatation : MorphologicalAlgorithm<EmptyMorphologicalAlgorithmConfiguration>
     {
-        protected override Image Apply(Image image, EmptyMorphologicalAlgorithmConfiguration configuration)
+        protected override Bitmap Apply(Bitmap image, EmptyMorphologicalAlgorithmConfiguration configuration)
         {
             throw new NotImplementedException();
         }

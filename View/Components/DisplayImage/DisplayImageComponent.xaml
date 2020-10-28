@@ -7,15 +7,15 @@
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="600">
 
-    <Grid Margin="41,55,-41,-55">
-    <Grid.RowDefinitions>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-    <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="*" />
-    </Grid.ColumnDefinitions>
-        <Image Grid.Row="0" Grid.Column="0"/>
-        <Image Grid.Row="0" Grid.Column="1"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Image x:Name="BeforeImage" Grid.Row="0" Grid.Column="0" Margin="10, 10, 10, 10"/>
+        <Image x:Name="AfterImage" Grid.Row="0" Grid.Column="1" Margin="10, 10, 10, 10"/>
     </Grid>
 </UserControl>

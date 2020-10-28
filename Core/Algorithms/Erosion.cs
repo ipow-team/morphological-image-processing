@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Windows.Controls;
+using System.Drawing;
 
 namespace MorphologicalImageProcessing.Core.Algorithms
 {
     class Erosion : MorphologicalAlgorithm<DefaultMorphologicalAlgorithmConfiguration>
     {
 
-        protected override Image Apply(Image image, DefaultMorphologicalAlgorithmConfiguration configuration)
+        protected override Bitmap Apply(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration)
         {
             throw new NotImplementedException();
         }
