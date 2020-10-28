@@ -5,9 +5,9 @@ namespace MorphologicalImageProcessing.Core.Algorithms
 {
     class Dilatation : MorphologicalAlgorithm<DefaultMorphologicalAlgorithmConfiguration>
     {
-        protected override Bitmap Apply(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration)
+        protected override Bitmap Apply(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration, Action<Bitmap> stepCallback)
         {
-            return DrawEdges(image, configuration);
+            return DrawEdges(image, configuration, stepCallback);
         }
 
         public override string GetName()
@@ -15,7 +15,7 @@ namespace MorphologicalImageProcessing.Core.Algorithms
             return "Dilatation";
         }
 
-        public Bitmap DrawEdges(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration)
+        public Bitmap DrawEdges(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration, Action<Bitmap> stepCallback)
         {
             Bitmap edges = new Bitmap(image);
             int boxSize = 2 * (configuration.BoxSize) + 1;
@@ -33,7 +33,7 @@ namespace MorphologicalImageProcessing.Core.Algorithms
                             {
                                 if (l > 0 && l < edges.Height)
                                 {
-                                    if (image.GetPixel(k, l).GetBrightness() > configuration.BrightnessThreshold)
+                                    if (image.GetPixel(k, l).GetBrightness() > 0.02)
                                     {
                                         is_edge = true;
                                     }
@@ -41,9 +41,13 @@ namespace MorphologicalImageProcessing.Core.Algorithms
                             }
                         }
                     }
-                    if (is_edge && image.GetPixel(i, j).GetBrightness() < configuration.BrightnessThreshold)
+                    if (is_edge && image.GetPixel(i, j).GetBrightness() < 0.02)
                     {
                         edges.SetPixel(i, j, configuration.LineColor);
+                        if (stepCallback != null)
+                        {
+                            stepCallback.Invoke(new Bitmap(edges));
+                        }
                     }
                 }
             }
