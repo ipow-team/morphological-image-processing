@@ -47,7 +47,7 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
             return _algorithmSelectionViewModel.SelectedAlgorithm;
         }
 
-        public IMorphologicalAlgorithmConfiguration getCurrentConfiguration()
+        public IMorphologicalAlgorithmConfiguration GetCurrentConfiguration()
         {
             return baseAlgorithmConfigurationComponent.GetCurrentConfiguration();
         }
