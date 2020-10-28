@@ -8,7 +8,7 @@
     <StackPanel Height="Auto">
         <StackPanel VerticalAlignment="Top">
             <Label Content="Matrix Size (min. 2)&#xD;&#xA;" HorizontalAlignment="Stretch" Height="28"/>
-            <TextBox x:Name="MatrixSizeSelector" Text="TextBox" TextWrapping="Wrap" Height="25" HorizontalAlignment="Stretch"/>
+            <Slider x:Name="MatrixSizeSelector" IsSnapToTickEnabled="True" TickFrequency="1" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" HorizontalAlignment="Stretch" ValueChanged="MatrixSizeSelector_ValueChanged"/>
         </StackPanel>
     </StackPanel>
 </UserControl>

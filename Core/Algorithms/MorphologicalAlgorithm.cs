@@ -41,6 +41,8 @@ namespace MorphologicalImageProcessing.Core.Algorithms
     class DefaultMorphologicalAlgorithmConfiguration: IMorphologicalAlgorithmConfiguration
     {
         public int BoxSize { get; set; } = 3;
+        public int MinBoxSize { get; } = 2;
+        public int MaxBoxSize { get; } = 5;
     }
 
     class EmptyMorphologicalAlgorithmConfiguration: IMorphologicalAlgorithmConfiguration
