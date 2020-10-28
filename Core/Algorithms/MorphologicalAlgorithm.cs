@@ -9,6 +9,8 @@ namespace MorphologicalImageProcessing.Core.Algorithms
 
         Bitmap Apply(Bitmap image, IMorphologicalAlgorithmConfiguration configuration);
 
+        Bitmap Apply(Bitmap image, IMorphologicalAlgorithmConfiguration configuration, Action<Bitmap> stepCallback);
+
         Type GetConfigurationClass();
 
         public String Name
@@ -22,13 +24,19 @@ namespace MorphologicalImageProcessing.Core.Algorithms
 
     abstract class MorphologicalAlgorithm<T> : IAlgorithm where T : IMorphologicalAlgorithmConfiguration
     {
-        protected abstract Bitmap Apply(Bitmap image, T configuration);
+        protected abstract Bitmap Apply(Bitmap image, T configuration, Action<Bitmap> stepCallback);
 
         public abstract String GetName();
 
+
         public Bitmap Apply(Bitmap image, IMorphologicalAlgorithmConfiguration configuration)
         {
-            return Apply(image, (T)configuration);
+            return Apply(image, configuration, null);
+        }
+
+        public Bitmap Apply(Bitmap image, IMorphologicalAlgorithmConfiguration configuration, Action<Bitmap> stepCallback)
+        {
+            return Apply(image, (T)configuration, stepCallback);
         }
 
         public Type GetConfigurationClass() {
