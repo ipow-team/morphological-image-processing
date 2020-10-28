@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace morphological_image_processing_wpf
 {
@@ -23,6 +24,19 @@ namespace morphological_image_processing_wpf
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void LoadImageBtnClick(object sender, RoutedEventArgs e)
+        {
+            //OpenFileDialog op = new OpenFileDialog();
+            //op.Title = "Select a picture";
+            //op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
+            //  "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
+            //  "Portable Network Graphic (*.png)|*.png";
+            //if (op.ShowDialog() == true)
+            //{
+            //    imgPhoto.Source = new BitmapImage(new Uri(op.FileName));
+            //}
         }
     }
 }
