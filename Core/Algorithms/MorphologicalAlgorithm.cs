@@ -45,7 +45,6 @@ namespace MorphologicalImageProcessing.Core.Algorithms
         public int MinBoxSize { get; } = 2;
         public int MaxBoxSize { get; } = 10;
 
-        public double BrightnessThreshold { get; set; } = 0.02;
         public Color LineColor { get; set; } = Color.Red;
     }
 

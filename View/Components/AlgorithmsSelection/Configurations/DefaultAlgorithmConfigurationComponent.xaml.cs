@@ -1,5 +1,6 @@
 ﻿using MorphologicalImageProcessing.Core.Algorithms;
 using System;
+using System.CodeDom;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,10 +17,9 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
         public DefaultAlgorithmConfigurationComponent()
         {
             InitializeComponent();
-            MatrixSizeSelector.Minimum = configuration.MinBoxSize;
-            MatrixSizeSelector.Maximum = configuration.MaxBoxSize;
-            MatrixSizeSelector.Value = configuration.BoxSize;
-            BrightnessThresholdSelector.Value = configuration.BrightnessThreshold;
+            MatrixSizeSelector.Minimum = (double)configuration.MinBoxSize;
+            MatrixSizeSelector.Maximum = (double)configuration.MaxBoxSize;
+            MatrixSizeSelector.Value = (double) configuration.BoxSize;
             LineColorPicker.SelectedColor = ConvertColor(configuration.LineColor);
         }
 
@@ -33,7 +33,7 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
             return this;
         }
 
-        private void MatrixSizeSelector_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void MatrixSizeSelector_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
         {
             configuration.BoxSize = (int)MatrixSizeSelector.Value;
         }
@@ -55,11 +55,6 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
         private System.Windows.Media.Color ConvertColor(Color sourceColor)
         {
             return System.Windows.Media.Color.FromArgb(sourceColor.A, sourceColor.R, sourceColor.G, sourceColor.B);
-        }
-
-        private void BrightnessThresholdSelector_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            configuration.BrightnessThreshold = Math.Max(0.01, Math.Min(BrightnessThresholdSelector.Value, 1.0));
         }
     }
 }

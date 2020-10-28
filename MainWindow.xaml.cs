@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Win32;
-using morphological_image_processing_wpf.Core.Generator;
 using MorphologicalImageProcessing.Core.Algorithms;
 
 namespace morphological_image_processing_wpf
@@ -55,19 +54,14 @@ namespace morphological_image_processing_wpf
             {
                 StartProcessingButton.IsEnabled = false;
                 LoadImageButton.IsEnabled = false;
-                Task.Run(() =>
+                Dispatcher.Invoke(() =>
                 {
-                    App.Current.Dispatcher.Invoke(() => RunAlgorithm(beforeImage, selectedAlgorithm, currentConfiguration));
+                    Bitmap afterImage = selectedAlgorithm.Apply(beforeImage, currentConfiguration);
+                    SideBySideImagesComponent.SetAfterImageFromBitmap(afterImage);
+                    StartProcessingButton.IsEnabled = true;
+                    LoadImageButton.IsEnabled = true;
                 });
             }
-        }
-
-        private void RunAlgorithm(Bitmap beforeImage, IAlgorithm selectedAlgorithm, IMorphologicalAlgorithmConfiguration currentConfiguration)
-        {
-            Bitmap afterImage = selectedAlgorithm.Apply(beforeImage, currentConfiguration);
-            SideBySideImagesComponent.SetAfterImageFromBitmap(afterImage);
-            StartProcessingButton.IsEnabled = true;
-            LoadImageButton.IsEnabled = true;
         }
 
         private void ShowErrorDialog(string errorMessage)
