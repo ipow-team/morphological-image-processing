@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Controls;
 
 namespace MorphologicalImageProcessing.Core.Algorithms
@@ -7,7 +8,7 @@ namespace MorphologicalImageProcessing.Core.Algorithms
     {
         String GetName();
 
-        Image Apply(Image image, IMorphologicalAlgorithmConfiguration configuration);
+        Bitmap Apply(Bitmap image, IMorphologicalAlgorithmConfiguration configuration);
 
         Type GetConfigurationClass();
 
@@ -22,11 +23,11 @@ namespace MorphologicalImageProcessing.Core.Algorithms
 
     abstract class MorphologicalAlgorithm<T> : IAlgorithm where T : IMorphologicalAlgorithmConfiguration
     {
-        protected abstract Image Apply(Image image, T configuration);
+        protected abstract Bitmap Apply(Bitmap image, T configuration);
 
         public abstract String GetName();
 
-        public Image Apply(Image image, IMorphologicalAlgorithmConfiguration configuration)
+        public Bitmap Apply(Bitmap image, IMorphologicalAlgorithmConfiguration configuration)
         {
             return Apply(image, (T)configuration);
         }
