@@ -6,9 +6,9 @@ namespace MorphologicalImageProcessing.Core.Algorithms
 {
     class Dilatation : MorphologicalAlgorithm<DefaultMorphologicalAlgorithmConfiguration>
     {
-        protected override Bitmap Apply(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration)
+        protected override Bitmap Apply(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration, Action<Bitmap> stepCallback)
         {
-            return DrawEdges(image, configuration);
+            return DrawEdges(image, configuration, stepCallback);
         }
 
         public override string GetName()
@@ -16,7 +16,7 @@ namespace MorphologicalImageProcessing.Core.Algorithms
             return "Dilatation";
         }
 
-        public Bitmap DrawEdges(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration)
+        public Bitmap DrawEdges(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration, Action<Bitmap> stepCallback)
         {
             DirectBitmap edges = new DirectBitmap(image2);
             DirectBitmap image = new DirectBitmap(image2);
@@ -46,6 +46,10 @@ namespace MorphologicalImageProcessing.Core.Algorithms
                     if (is_edge && image.GetPixel(i, j).GetBrightness() < 0.02)
                     {
                         edges.SetPixel(i, j, configuration.LineColor);
+                        if (stepCallback != null)
+                        {
+                            stepCallback.Invoke(new Bitmap(edges));
+                        }
                     }
                 }
             }
