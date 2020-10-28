@@ -76,7 +76,7 @@ namespace morphological_image_processing_wpf.View.Components.DisplayImage
             BitmapImage bitmapImage;
             using (var memStream = new MemoryStream())
             {
-                new Bitmap(bitmap).Save(memStream, bitmap.RawFormat);
+                new Bitmap(bitmap).Save(memStream, ImageFormat.Png);
                 memStream.Position = 0;
 
                 bitmapImage = new BitmapImage();

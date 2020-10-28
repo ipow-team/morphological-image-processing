@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Win32;
 using MorphologicalImageProcessing.Core.Algorithms;
@@ -51,9 +52,15 @@ namespace morphological_image_processing_wpf
                 ShowErrorDialog("Algorithm has to have atleast empty configuration.");
             } else
             {
-                //Bitmap afterImage = selectedAlgorithm.Apply(beforeImage, currentConfiguration);
-                Bitmap afterImage = SideBySideImagesComponent.GetBeforeImage();
-                SideBySideImagesComponent.SetAfterImageFromBitmap(afterImage);
+                StartProcessingButton.IsEnabled = false;
+                LoadImageButton.IsEnabled = false;
+                Dispatcher.Invoke(() =>
+                {
+                    Bitmap afterImage = selectedAlgorithm.Apply(beforeImage, currentConfiguration);
+                    SideBySideImagesComponent.SetAfterImageFromBitmap(afterImage);
+                    StartProcessingButton.IsEnabled = true;
+                    LoadImageButton.IsEnabled = true;
+                });
             }
         }
 
@@ -61,11 +68,5 @@ namespace morphological_image_processing_wpf
         {
             MessageBox.Show(errorMessage, "OK", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-
-        // Ustawiamy obrazek super
-        // Process -> zgarnij Algorytm, Konfiguracje
-        // Zgarnij załadowany obrazek / Jak nie ma to rzuć coś tam
-        // Jak jest -> wrzuć do algorytmu asynchronicznie
-        // Na callbacku -> ustaw AfterImage
     }
 }

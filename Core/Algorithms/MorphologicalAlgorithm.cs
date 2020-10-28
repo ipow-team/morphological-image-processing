@@ -42,7 +42,9 @@ namespace MorphologicalImageProcessing.Core.Algorithms
     {
         public int BoxSize { get; set; } = 3;
         public int MinBoxSize { get; } = 2;
-        public int MaxBoxSize { get; } = 5;
+        public int MaxBoxSize { get; } = 10;
+
+        public Color LineColor { get; set; } = Color.Red;
     }
 
     class EmptyMorphologicalAlgorithmConfiguration: IMorphologicalAlgorithmConfiguration

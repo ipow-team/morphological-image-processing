@@ -5,15 +5,9 @@ namespace MorphologicalImageProcessing.Core.Algorithms
 {
     class Erosion : MorphologicalAlgorithm<DefaultMorphologicalAlgorithmConfiguration>
     {
-        private Bitmap image;
-        private DefaultMorphologicalAlgorithmConfiguration configuration;
-
         protected override Bitmap Apply(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration)
         {
-            this.image = image;
-            this.configuration = configuration;
-
-            return this.image;
+            return DrawEdges(image, configuration);
         }
 
         public override string GetName()
@@ -21,10 +15,10 @@ namespace MorphologicalImageProcessing.Core.Algorithms
             return "Erosion";
         }
 
-        public Bitmap DrawEdges()
+        public Bitmap DrawEdges(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration)
         {
-            Bitmap edges = new Bitmap(image.Width, image.Height);
-            int boxSize = configuration.BoxSize;
+            Bitmap edges = new Bitmap(image);
+            int boxSize = 2 * (configuration.BoxSize) + 1;
 
             for (int i = 0; i < edges.Width; i++)
             {
@@ -49,7 +43,7 @@ namespace MorphologicalImageProcessing.Core.Algorithms
                     }
                     if (is_edge && image.GetPixel(i, j).GetBrightness() > 0.02)
                     {
-                        edges.SetPixel(i, j, Color.Black);
+                        edges.SetPixel(i, j, configuration.LineColor);
                     }
                 }
             }

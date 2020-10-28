@@ -2,13 +2,18 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:local="clr-namespace:morphological_image_processing_wpf.View.Components.AlgorithmsSelection.Configurations"
              mc:Ignorable="d">
     <StackPanel Height="Auto">
         <StackPanel VerticalAlignment="Top">
             <Label Content="Matrix Size (min. 2)&#xD;&#xA;" HorizontalAlignment="Stretch" Height="28"/>
-            <Slider x:Name="MatrixSizeSelector" IsSnapToTickEnabled="True" TickFrequency="1" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" HorizontalAlignment="Stretch" ValueChanged="MatrixSizeSelector_ValueChanged"/>
+            <Slider x:Name="MatrixSizeSelector" IsSnapToTickEnabled="True" TickFrequency="1" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" HorizontalAlignment="Stretch" ValueChanged="MatrixSizeSelector_ValueChanged" />
+        </StackPanel>
+        <StackPanel>
+            <Label Content="Line Color" HorizontalAlignment="Stretch" Height="28"/>
+            <xctk:ColorPicker x:Name="LineColorPicker" SelectedColorChanged="LineColorPicker_SelectedColorChanged" />
         </StackPanel>
     </StackPanel>
 </UserControl>
