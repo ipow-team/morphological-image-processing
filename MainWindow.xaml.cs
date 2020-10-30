@@ -54,11 +54,19 @@ namespace morphological_image_processing_wpf
             {
                 StartProcessingButton.IsEnabled = false;
                 LoadImageButton.IsEnabled = false;
-                Bitmap afterImage = selectedAlgorithm.Apply(beforeImage, currentConfiguration);
-                SideBySideImagesComponent.SetAfterImageFromBitmap(afterImage);
-                StartProcessingButton.IsEnabled = true;
-                LoadImageButton.IsEnabled = true;
+                Task.Run(() =>
+                {
+                    Dispatcher.Invoke(() => RunAlgorithm(beforeImage, selectedAlgorithm, currentConfiguration));
+                });
             }
+        }
+
+        private void RunAlgorithm(Bitmap beforeImage, IAlgorithm selectedAlgorithm, IMorphologicalAlgorithmConfiguration currentConfiguration)
+        {
+            Bitmap afterImage = selectedAlgorithm.Apply(beforeImage, currentConfiguration);
+            SideBySideImagesComponent.SetAfterImageFromBitmap(afterImage);
+            StartProcessingButton.IsEnabled = true;
+            LoadImageButton.IsEnabled = true;
         }
 
         private void ShowErrorDialog(string errorMessage)
