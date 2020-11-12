@@ -29,6 +29,11 @@ namespace morphological_image_processing_wpf.View.Components.DisplayImage
             SetImage(BeforeImage, image);
         }
 
+        public void SetBeforeImage(RenderTargetBitmap image)
+        {
+            SetImage(BeforeImage, image);
+        }
+
         public Bitmap GetBeforeImage()
         {
             return GetImage(BeforeImage);
@@ -61,6 +66,11 @@ namespace morphological_image_processing_wpf.View.Components.DisplayImage
         }
 
         private void SetImage(System.Windows.Controls.Image imageComponent, BitmapImage image)
+        {
+            imageComponent.Source = image;
+        }
+
+        private void SetImage(System.Windows.Controls.Image imageComponent, RenderTargetBitmap image)
         {
             imageComponent.Source = image;
         }

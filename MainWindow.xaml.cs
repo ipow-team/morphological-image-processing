@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Win32;
+using morphological_image_processing_wpf.Core.Generator;
 using MorphologicalImageProcessing.Core.Algorithms;
 
 namespace morphological_image_processing_wpf
@@ -72,6 +73,12 @@ namespace morphological_image_processing_wpf
         private void ShowErrorDialog(string errorMessage)
         {
             MessageBox.Show(errorMessage, "Error message", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void GenerateImageBtnClick(object sender, RoutedEventArgs e)
+        {
+            ImageGenerator generator = new ImageGenerator(1000, 1000);
+            SideBySideImagesComponent.SetBeforeImage(generator.GeneratePicture(5, 10, 10));
         }
     }
 }
