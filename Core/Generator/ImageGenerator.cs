@@ -27,7 +27,7 @@ namespace morphological_image_processing_wpf.Core.Generator
                 Stroke = Brushes.Black,
                 StrokeThickness = rand.Next(1, maxStrokeThickness),
                 HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Center
+                VerticalAlignment = VerticalAlignment.Top
             };
 
             if(isFilled)
@@ -55,7 +55,7 @@ namespace morphological_image_processing_wpf.Core.Generator
                 Stroke = Brushes.Black,
                 StrokeThickness = rand.Next(1, maxStrokeThickness),
                 HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Top,
                 Width = rand.Next(minWidth, maxWidth),
                 Height = rand.Next(minHeight, maxHeight)
             };
@@ -78,7 +78,9 @@ namespace morphological_image_processing_wpf.Core.Generator
             {
                 Stroke = Brushes.Black,
                 StrokeThickness = rand.Next(1, maxStrokeThickness),
-                FillRule = FillRule.EvenOdd
+                FillRule = FillRule.EvenOdd,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
             };
 
             PointCollection myPointCollection = new PointCollection {};
@@ -100,9 +102,9 @@ namespace morphological_image_processing_wpf.Core.Generator
             
             for(int i = 0; i <numberOfShapes; i++)
             {
-                int minX = rand.Next(bitmapWidth / 10, bitmapWidth / 2);
+                int minX = rand.Next(100, 200);
                 int maxX = rand.Next(minX, bitmapWidth);
-                int minY = rand.Next(bitmapHeight / 10, bitmapHeight / 2);
+                int minY = rand.Next(100, 200);
                 int maxY = rand.Next(minY, bitmapHeight);
                 int moveX = rand.Next(0, bitmapWidth - maxX);
                 int moveY = rand.Next(0, bitmapHeight - maxY);
