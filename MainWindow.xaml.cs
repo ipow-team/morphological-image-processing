@@ -79,6 +79,7 @@ namespace morphological_image_processing_wpf
         {
             ImageGenerator generator = new ImageGenerator(1000, 1000);
             SideBySideImagesComponent.SetBeforeImage(generator.GeneratePicture(5, 10, 10));
+            SideBySideImagesComponent.SetAfterImage(null);
         }
     }
 }
