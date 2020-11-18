@@ -1,4 +1,5 @@
-﻿using System;
+﻿using morphological_image_processing_wpf.Core.Algorithms;
+using System;
 using System.Drawing;
 
 namespace MorphologicalImageProcessing.Core.Algorithms
@@ -15,9 +16,10 @@ namespace MorphologicalImageProcessing.Core.Algorithms
             return "Dilatation";
         }
 
-        public Bitmap DrawEdges(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration, Action<Bitmap> stepCallback)
+        public Bitmap DrawEdges(Bitmap image2, DefaultMorphologicalAlgorithmConfiguration configuration, Action<Bitmap> stepCallback)
         {
-            Bitmap edges = new Bitmap(image);
+            DirectBitmap edges = new DirectBitmap(image2);
+            DirectBitmap image = new DirectBitmap(image2);
             int boxSize = 2 * (configuration.BoxSize) + 1;
 
             for (int i = 0; i < edges.Width; i++)
@@ -44,14 +46,10 @@ namespace MorphologicalImageProcessing.Core.Algorithms
                     if (is_edge && image.GetPixel(i, j).GetBrightness() < 0.02)
                     {
                         edges.SetPixel(i, j, configuration.LineColor);
-                        if (stepCallback != null)
-                        {
-                            stepCallback.Invoke(new Bitmap(edges));
-                        }
                     }
                 }
             }
-            return edges;
+            return edges.Bitmap;
         }
     }
 }
