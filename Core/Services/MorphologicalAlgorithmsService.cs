@@ -6,7 +6,9 @@ namespace MorphologicalImageProcessing.Core.Services
     {
         private static readonly IList<IAlgorithm> _algoritms = new List<IAlgorithm>() {
             new Dilatation(),
-            new Erosion()
+            new Erosion(),
+            new Opening(),
+            new Closing()
         };
 
         public IList<IAlgorithm> GetAllAlgorithms()
