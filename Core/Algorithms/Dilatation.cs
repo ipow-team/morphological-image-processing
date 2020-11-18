@@ -17,6 +17,7 @@ namespace MorphologicalImageProcessing.Core.Algorithms
         }
 
         private  Bitmap DrawEdges(Bitmap original, DefaultMorphologicalAlgorithmConfiguration configuration)
+
         {
             DirectBitmap edges = new DirectBitmap(original);
             DirectBitmap image = new DirectBitmap(original);
