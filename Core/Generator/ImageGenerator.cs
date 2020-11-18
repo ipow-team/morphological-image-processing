@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace morphological_image_processing_wpf.Core.Generator
 {
@@ -19,86 +17,75 @@ namespace morphological_image_processing_wpf.Core.Generator
             this.bitmapWidth = bitmapWidth;
         }
 
-       public Polygon GeneratePolygon(int maxNumberOfEdges, int maxStrokeThickness, int minX, int maxX, int minY, int maxY, bool isFilled, int moveX, int moveY)
+       public void DrawPolygon(Graphics g, int maxNumberOfEdges, int maxStrokeThickness, int minX, int maxX, int minY, int maxY, bool isFilled, int moveX, int moveY)
         {
+            Brush brush = new SolidBrush(GetBrushColor());
             int numberOfEdges = rand.Next(3, maxNumberOfEdges);
-            Polygon myPolygon = new Polygon
-            {
-                Stroke = Brushes.Black,
-                StrokeThickness = rand.Next(1, maxStrokeThickness),
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Top
-            };
+            List<Point> pointList = new List<Point>();
 
-            if(isFilled)
+            for (int i = 0; i < numberOfEdges; i++)
             {
-                myPolygon.Fill = Brushes.Black;
+                pointList.Add(new Point(rand.Next(minX, maxX) + moveX, rand.Next(minY, maxY) + moveY));
             }
-
-            PointCollection myPointCollection = new PointCollection{};
-            for(int i = 0; i < numberOfEdges; i++)
-            {
-                myPointCollection.Add(new Point(rand.Next(minX, maxX), rand.Next(minY, maxY)));
-            }
-            myPolygon.Points = myPointCollection;
-
-            myPolygon.Measure(new Size(bitmapWidth, bitmapHeight));
-            myPolygon.Arrange(new Rect(moveX, moveY, bitmapWidth, bitmapHeight));
-
-            return myPolygon;
-        }
-       
-        public Ellipse GenerateEllipse(int maxStrokeThickness, int minWidth, int maxWidth, int minHeight, int maxHeight, bool isFilled, int moveX, int moveY)
-        {
-            Ellipse ellipse =  new Ellipse
-            {
-                Stroke = Brushes.Black,
-                StrokeThickness = rand.Next(1, maxStrokeThickness),
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Top,
-                Width = rand.Next(minWidth, maxWidth),
-                Height = rand.Next(minHeight, maxHeight)
-            };
 
             if (isFilled)
             {
-                ellipse.Fill = Brushes.Black;
+                g.FillPolygon(brush, pointList.ToArray());
             }
-
-            ellipse.Measure(new Size(bitmapWidth, bitmapHeight));
-            ellipse.Arrange(new Rect(moveX, moveY, bitmapWidth, bitmapHeight));
-
-            return ellipse;
+            else
+            {
+                Pen pen = new Pen(brush, rand.Next(1, maxStrokeThickness));
+                g.DrawPolygon(pen, pointList.ToArray());
+            }
         }
 
-        public Polyline GeneratePolyline(int maxNumberOfEdges, int maxStrokeThickness, int minX, int maxX, int minY, int maxY, int moveX, int moveY)
+        private Color GetBrushColor()
         {
-            int numberOfEdges = rand.Next(1, maxNumberOfEdges);
-            Polyline myPolyline = new Polyline
+            return Color.FromArgb(255, 30, 30, 30);
+        }
+       
+        public void DrawEllipse(Graphics g, int maxStrokeThickness, int minWidth, int maxWidth, int minHeight, int maxHeight, bool isFilled, int moveX, int moveY)
+        {
+            Rectangle rect = new Rectangle
             {
-                Stroke = Brushes.Black,
-                StrokeThickness = rand.Next(1, maxStrokeThickness),
-                FillRule = FillRule.EvenOdd,
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Top,
+                Width = rand.Next(minWidth, maxWidth),
+                Height = rand.Next(minHeight, maxHeight),
+                X = moveX,
+                Y = moveY
             };
 
-            PointCollection myPointCollection = new PointCollection {};
-            for (int i = 0; i < numberOfEdges; i++)
+            Brush brush = new SolidBrush(GetBrushColor());
+
+            if (isFilled)
             {
-                myPointCollection.Add(new Point(rand.Next(minX, maxX), rand.Next(minY, maxY)));
+                g.FillEllipse(brush, rect);
+            } 
+            else
+            {
+                Pen pen = new Pen(brush, rand.Next(1, maxStrokeThickness));
+                g.DrawEllipse(pen, rect);
             }
-            myPolyline.Points = myPointCollection;
-
-            myPolyline.Measure(new Size(bitmapWidth, bitmapHeight));
-            myPolyline.Arrange(new Rect(moveX, moveY, bitmapWidth, bitmapHeight));
-
-            return myPolyline;
         }
 
-        public RenderTargetBitmap GeneratePicture(int numberOfShapes, int maxNumberOfEdges, int maxStrokeThickness)
+        public void DrawPolyline(Graphics g, int maxNumberOfEdges, int maxStrokeThickness, int minX, int maxX, int minY, int maxY, int moveX, int moveY)
         {
-            RenderTargetBitmap bitmap = new RenderTargetBitmap(bitmapWidth, bitmapHeight, 96, 96, PixelFormats.Default);
+            Brush brush = new SolidBrush(GetBrushColor());
+            Pen pen = new Pen(brush, rand.Next(1, maxStrokeThickness));
+            int numberOfEdges = rand.Next(2, maxNumberOfEdges);
+            List<Point> pointList = new List<Point>();
+
+            for (int i = 0; i < numberOfEdges; i++)
+            {
+                pointList.Add(new Point(rand.Next(minX, maxX) + moveX, rand.Next(minY, maxY) + moveY));
+            }
+
+            g.DrawLines(pen, pointList.ToArray());
+        }
+
+        public Bitmap GeneratePicture(int numberOfShapes, int maxNumberOfEdges, int maxStrokeThickness)
+        {
+            Bitmap bitmap = new Bitmap(bitmapWidth, bitmapHeight);
+            Graphics graphics = Graphics.FromImage(bitmap);
             
             for(int i = 0; i <numberOfShapes; i++)
             {
@@ -115,13 +102,13 @@ namespace morphological_image_processing_wpf.Core.Generator
                 switch (rand.Next(0, 3))
                 {
                     case 0:
-                        bitmap.Render(GenerateEllipse(maxStrokeThickness, minX, maxX, minY, maxY, isFilled, moveX, moveY));
+                        DrawEllipse(graphics, maxStrokeThickness, minX, maxX, minY, maxY, isFilled, moveX, moveY);
                         break;
                     case 1:
-                        bitmap.Render(GeneratePolygon(maxNumberOfEdges, maxStrokeThickness, minX, maxX, minY, maxY, isFilled, moveX, moveY));
+                        DrawPolygon(graphics, maxNumberOfEdges, maxStrokeThickness, minX, maxX, minY, maxY, isFilled, moveX, moveY);
                         break;
                     case 2:
-                        bitmap.Render(GeneratePolyline(maxNumberOfEdges, maxStrokeThickness, minX, maxX, minY, maxY, moveX, moveY));
+                        DrawPolyline(graphics, maxNumberOfEdges, maxStrokeThickness, minX, maxX, minY, maxY, moveX, moveY);
                         break;
                 }
             }

@@ -27,6 +27,12 @@ namespace morphological_image_processing_wpf.View.Components.DisplayImage
             SetBeforeImage(new BitmapImage(new Uri(path)));
         }
 
+        public void SetBeforeImage(Bitmap bitmap)
+        {
+            BitmapImage bitmapImage = GetBitMapImageFromBitMap(bitmap);
+            SetBeforeImage(bitmapImage);
+        }
+
         public void SetBeforeImage(BitmapSource imageSource)
         {
             if(imageSource == null)
