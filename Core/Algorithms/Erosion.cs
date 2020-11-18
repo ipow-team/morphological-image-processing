@@ -18,10 +18,10 @@ namespace MorphologicalImageProcessing.Core.Algorithms
             return "Erosion";
         }
 
-        public Bitmap DrawEdges(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration)
+        private Bitmap DrawEdges(Bitmap original, DefaultMorphologicalAlgorithmConfiguration configuration)
         {
-            DirectBitmap edges = new DirectBitmap(image2);
-            DirectBitmap image = new DirectBitmap(image2);
+            DirectBitmap edges = new DirectBitmap(original);
+            DirectBitmap image = new DirectBitmap(original);
             int boxSize = 2 * (configuration.BoxSize) + 1;
 
             for (int i = 0; i < edges.Width; i++)

@@ -4,6 +4,9 @@ namespace MorphologicalImageProcessing.Core.Algorithms
 {
     class Closing : MorphologicalAlgorithm<DefaultMorphologicalAlgorithmConfiguration>
     {
+        private Erosion _erosion = new Erosion();
+        private Dilatation _dilatation = new Dilatation();
+
         protected override Bitmap Apply(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration)
         {
             return DrawEdges(image, configuration);
@@ -14,13 +17,10 @@ namespace MorphologicalImageProcessing.Core.Algorithms
             return "Closing";
         }
 
-        public Bitmap DrawEdges(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration)
+        private Bitmap DrawEdges(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration)
         {
-            Erosion erosion = new Erosion();
-            Dilatation dilatation = new Dilatation();
-            image = dilatation.DrawEdges(image, configuration);
-            image = erosion.DrawEdges(image, configuration);
-
+            image = _dilatation.Apply(image, configuration);
+            image = _erosion.Apply(image, configuration);
             return image;
         }
     }
