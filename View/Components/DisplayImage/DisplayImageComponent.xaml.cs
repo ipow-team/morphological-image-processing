@@ -73,12 +73,7 @@ namespace morphological_image_processing_wpf.View.Components.DisplayImage
             {
                 throw new Exception("Error loading image from source");
             }
-            var fixedFormatBitmap = new Bitmap(bitmap.Width, bitmap.Height, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
-            using (Graphics graphics = Graphics.FromImage(fixedFormatBitmap))
-            {
-                graphics.DrawImage(bitmap, new Point(0, 0));
-            }
-            return fixedFormatBitmap;
+            return bitmap;
         }
 
         public void SetAfterImageFromBitmap(Bitmap bitmap)
