@@ -57,7 +57,7 @@ namespace morphological_image_processing_wpf
                 LoadImageButton.IsEnabled = false;
                 Task.Run(() =>
                 {
-                    Dispatcher.Invoke(() => RunAlgorithm(beforeImage, selectedAlgorithm, currentConfiguration));
+                    App.Current.Dispatcher.Invoke(() => RunAlgorithm(beforeImage, selectedAlgorithm, currentConfiguration));
                 });
             }
         }
@@ -77,7 +77,7 @@ namespace morphological_image_processing_wpf
 
         private void GenerateImageBtnClick(object sender, RoutedEventArgs e)
         {
-            ImageGenerator generator = new ImageGenerator(1000, 1000);
+            ImageGenerator generator = new ImageGenerator(250, 250);
             SideBySideImagesComponent.SetBeforeImage(generator.GeneratePicture(5, 10, 10));
         }
     }
