@@ -1,4 +1,5 @@
-﻿using System;
+﻿using morphological_image_processing_wpf.Core.Algorithms;
+using System;
 using System.Drawing;
 
 namespace MorphologicalImageProcessing.Core.Algorithms
@@ -17,7 +18,8 @@ namespace MorphologicalImageProcessing.Core.Algorithms
 
         public Bitmap DrawEdges(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration)
         {
-            Bitmap edges = new Bitmap(image);
+            DirectBitmap edges = new DirectBitmap(image2);
+            DirectBitmap image = new DirectBitmap(image2);
             int boxSize = 2 * (configuration.BoxSize) + 1;
 
             for (int i = 0; i < edges.Width; i++)
@@ -47,7 +49,7 @@ namespace MorphologicalImageProcessing.Core.Algorithms
                     }
                 }
             }
-            return edges;
+            return edges.Bitmap;
         }
     }
 }
