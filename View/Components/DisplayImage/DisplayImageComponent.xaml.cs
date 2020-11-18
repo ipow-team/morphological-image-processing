@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -16,7 +17,9 @@ namespace morphological_image_processing_wpf.View.Components.DisplayImage
         public DisplayImageComponent()
         {
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
+            BeforeImageDownload.Visibility = System.Windows.Visibility.Hidden;
+            AfterImageDownload.Visibility = System.Windows.Visibility.Hidden;
         }
 
         public void SetBeforeImage(string path)
@@ -24,14 +27,21 @@ namespace morphological_image_processing_wpf.View.Components.DisplayImage
             SetBeforeImage(new BitmapImage(new Uri(path)));
         }
 
-        public void SetBeforeImage(BitmapImage image)
+        public void SetBeforeImage(BitmapSource imageSource)
         {
-            SetImage(BeforeImage, image);
+            if(imageSource == null)
+            {
+                BeforeImageDownload.Visibility = System.Windows.Visibility.Hidden;
+            } else
+            {
+                BeforeImageDownload.Visibility = System.Windows.Visibility.Visible;
+            }
+            SetImage(BeforeImage, imageSource);
         }
 
-        public void SetBeforeImage(RenderTargetBitmap image)
+        private void SetImage(System.Windows.Controls.Image imageComponent, BitmapSource imageSource)
         {
-            SetImage(BeforeImage, image);
+            imageComponent.Source = imageSource;
         }
 
         public Bitmap GetBeforeImage()
@@ -52,33 +62,42 @@ namespace morphological_image_processing_wpf.View.Components.DisplayImage
             Bitmap bitmap;
             using (var memStream = new MemoryStream())
             {
-                var encoder = new BmpBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(imageSource as BitmapSource));
+                PngBitmapEncoder encoder = new PngBitmapEncoder();
+                BitmapSource source = imageSource as BitmapSource;
+                encoder.Frames.Add(BitmapFrame.Create(source));
                 encoder.Save(memStream);
                 memStream.Flush();
-                bitmap =  Bitmap.FromStream(memStream) as Bitmap;
+                bitmap = new Bitmap(memStream);
             }
             if(bitmap == null)
             {
                 throw new Exception("Error loading image from source");
             }
-            return bitmap;
-        }
-
-        private void SetImage(System.Windows.Controls.Image imageComponent, BitmapImage image)
-        {
-            imageComponent.Source = image;
-        }
-
-        private void SetImage(System.Windows.Controls.Image imageComponent, RenderTargetBitmap image)
-        {
-            imageComponent.Source = image;
+            var fixedFormatBitmap = new Bitmap(bitmap.Width, bitmap.Height, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+            using (Graphics graphics = Graphics.FromImage(fixedFormatBitmap))
+            {
+                graphics.DrawImage(bitmap, new Point(0, 0));
+            }
+            return fixedFormatBitmap;
         }
 
         public void SetAfterImageFromBitmap(Bitmap bitmap)
         {
             BitmapImage bitmapImage = GetBitMapImageFromBitMap(bitmap);
             SetAfterImage(bitmapImage);
+        }
+
+        public void SetAfterImage(BitmapSource imageSource)
+        {
+            if (imageSource == null)
+            {
+                AfterImageDownload.Visibility = System.Windows.Visibility.Hidden;
+            }
+            else
+            {
+                AfterImageDownload.Visibility = System.Windows.Visibility.Visible;
+            }
+            SetImage(AfterImage, imageSource);
         }
 
         private BitmapImage GetBitMapImageFromBitMap(Bitmap bitmap)
@@ -105,9 +124,33 @@ namespace morphological_image_processing_wpf.View.Components.DisplayImage
             return bitmapImage;
         }
 
-        public void SetAfterImage(BitmapImage image)
+        private void BeforeImageDownload_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            SetImage(AfterImage, image);
+            SetImageToDisk(BeforeImage.Source);
+        }
+
+        private void SetImageToDisk(ImageSource source)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog()
+            {
+                Title = "Save image to disk",
+                Filter = "Png file (*.png)|*.png",
+                FilterIndex = 1,
+                RestoreDirectory = true
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                using var fileStream = new FileStream(saveFileDialog.FileName, FileMode.Create);
+                BitmapEncoder encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(source as BitmapSource));
+                encoder.Save(fileStream);
+            }
+        }
+
+        private void AfterImageDownload_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            SetImageToDisk(AfterImage.Source);
         }
     }
 }

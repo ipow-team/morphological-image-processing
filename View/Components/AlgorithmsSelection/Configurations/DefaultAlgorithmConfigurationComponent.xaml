@@ -15,5 +15,9 @@
             <Label Content="Line Color" HorizontalAlignment="Stretch" Height="28"/>
             <xctk:ColorPicker x:Name="LineColorPicker" SelectedColorChanged="LineColorPicker_SelectedColorChanged" />
         </StackPanel>
+        <StackPanel VerticalAlignment="Top">
+            <Label Content="Brightness Threshold" HorizontalAlignment="Stretch" Height="28"/>
+            <Slider x:Name="BrightnessThresholdSelector" IsSnapToTickEnabled="True" TickFrequency="0.01" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="2" HorizontalAlignment="Stretch" ValueChanged="BrightnessThresholdSelector_ValueChanged" Maximum="0.99" Minimum="0.01" />
+        </StackPanel>
     </StackPanel>
 </UserControl>

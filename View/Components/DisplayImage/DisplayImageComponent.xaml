@@ -10,12 +10,15 @@
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Image x:Name="BeforeImage" Grid.Row="0" Grid.Column="0" Margin="10, 10, 10, 10"/>
+        <Image x:Name="BeforeImage" Grid.Row="0" Grid.Column="0" Margin="10, 10, 10, 10" />
+        <Button x:Name="BeforeImageDownload" Grid.Row="1" Grid.Column="0" Width="100" Height="40" Content="Save To Disk" Click="BeforeImageDownload_Click"/>
         <Image x:Name="AfterImage" Grid.Row="0" Grid.Column="1" Margin="10, 10, 10, 10"/>
+        <Button x:Name="AfterImageDownload" Grid.Row="1" Grid.Column="1" Width="100" Height="40" Content="Save To Disk" Click="AfterImageDownload_Click"/>
     </Grid>
 </UserControl>

@@ -8,9 +8,9 @@ namespace MorphologicalImageProcessing.Core.Algorithms
 {
     class Erosion : MorphologicalAlgorithm<DefaultMorphologicalAlgorithmConfiguration>
     {
-        protected override Bitmap Apply(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration, Action<Bitmap> stepCallback)
+        protected override Bitmap Apply(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration)
         {
-            return DrawEdges(image, configuration, stepCallback);
+            return DrawEdges(image, configuration);
         }
 
         public override string GetName()
@@ -18,8 +18,7 @@ namespace MorphologicalImageProcessing.Core.Algorithms
             return "Erosion";
         }
 
-
-        public Bitmap DrawEdges(Bitmap image2, DefaultMorphologicalAlgorithmConfiguration configuration, Action<Bitmap> stepCallback)
+        public Bitmap DrawEdges(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration)
         {
             DirectBitmap edges = new DirectBitmap(image2);
             DirectBitmap image = new DirectBitmap(image2);
@@ -38,7 +37,7 @@ namespace MorphologicalImageProcessing.Core.Algorithms
                             {
                                 if (l > 0 && l < edges.Height)
                                 {
-                                    if (image.GetPixel(k, l).GetBrightness() < 0.02)
+                                    if (image.GetPixel(k, l).GetBrightness() < configuration.BrightnessThreshold)
                                     {
                                         is_edge = true;
                                     }
@@ -46,13 +45,9 @@ namespace MorphologicalImageProcessing.Core.Algorithms
                             }
                         }
                     }
-                    if (is_edge && image.GetPixel(i, j).GetBrightness() > 0.02)
+                    if (is_edge && image.GetPixel(i, j).GetBrightness() > configuration.BrightnessThreshold)
                     {
                         edges.SetPixel(i, j, configuration.LineColor);
-                        if (stepCallback != null)
-                        {
-                            stepCallback.Invoke(new Bitmap(edges.Bitmap));
-                        }
                     }
                 }
             }
