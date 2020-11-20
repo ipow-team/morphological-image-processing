@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Win32;
+using morphological_image_processing_wpf.Core.Generator;
 using MorphologicalImageProcessing.Core.Algorithms;
 
 namespace morphological_image_processing_wpf
@@ -37,7 +38,7 @@ namespace morphological_image_processing_wpf
             }
         }
 
-        private void StartProcessingButton_Click(object sender, RoutedEventArgs e)
+        private async void StartProcessingButton_Click(object sender, RoutedEventArgs e)
         {
             Bitmap beforeImage = SideBySideImagesComponent.GetBeforeImage();
             IAlgorithm selectedAlgorithm = AlgorithmSelectionComponent.GetSelectedAlgorithm();
@@ -45,33 +46,42 @@ namespace morphological_image_processing_wpf
             if (beforeImage == null)
             {
                 ShowErrorDialog("You have to load an image");
+                return;
             } else if (selectedAlgorithm == null)
             {
                 ShowErrorDialog("You have to select an algorithm");
+                return;
             } else if (currentConfiguration == null) {
                 ShowErrorDialog("Algorithm has to have atleast empty configuration.");
-            } else
-            {
-                StartProcessingButton.IsEnabled = false;
-                LoadImageButton.IsEnabled = false;
-                Task.Run(() =>
-                {
-                    Dispatcher.Invoke(() => RunAlgorithm(beforeImage, selectedAlgorithm, currentConfiguration));
-                });
+                return;
             }
+            await RunAlgorithm(beforeImage, selectedAlgorithm, currentConfiguration);
         }
 
-        private void RunAlgorithm(Bitmap beforeImage, IAlgorithm selectedAlgorithm, IMorphologicalAlgorithmConfiguration currentConfiguration)
+        private async Task RunAlgorithm(Bitmap beforeImage, IAlgorithm selectedAlgorithm, IMorphologicalAlgorithmConfiguration currentConfiguration)
         {
-            Bitmap afterImage = selectedAlgorithm.Apply(beforeImage, currentConfiguration);
+            StartProcessingButton.IsEnabled = false;
+            LoadImageButton.IsEnabled = false;
+            GenerateImageButton.IsEnabled = false;
+            Bitmap afterImage = await Task.Run(() =>
+            {
+                return selectedAlgorithm.Apply(beforeImage, currentConfiguration);
+            });
             SideBySideImagesComponent.SetAfterImageFromBitmap(afterImage);
             StartProcessingButton.IsEnabled = true;
             LoadImageButton.IsEnabled = true;
+            GenerateImageButton.IsEnabled = true;
         }
 
         private void ShowErrorDialog(string errorMessage)
         {
             MessageBox.Show(errorMessage, "Error message", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void GenerateImageBtnClick(object sender, RoutedEventArgs e)
+        {
+            ImageGenerator imageGenerator = new ImageGenerator(500, 500);
+            SideBySideImagesComponent.SetBeforeImage(imageGenerator.GeneratePicture(3, 5, 10));
         }
     }
 }
