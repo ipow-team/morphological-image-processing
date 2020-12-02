@@ -20,6 +20,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition MaxWidth="250" />
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition MaxWidth="250" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -28,6 +29,7 @@
             <RowDefinition MaxHeight="60"/>
         </Grid.RowDefinitions>
         <Configurations:AlgorithmSelectionComponent x:Name="AlgorithmSelectionComponent" Grid.Column="0" Grid.Row="0" Style="{StaticResource GridElementStyle}" />
+        <Configurations:ImageGeneratorConfiguration x:Name="ImageGeneratorConfigurationComponent" Grid.Column="2" Grid.Row="0" Style="{StaticResource GridElementStyle}" />
         <Button x:Name="LoadImageButton" Content="Load Image" Grid.Column="0" Grid.Row="1" Click="LoadImageBtnClick" Style="{StaticResource GridElementStyle}"/>
         <Button x:Name="StartProcessingButton" Grid.Column="0" Grid.Row="2" Content="Process" Style="{StaticResource GridElementStyle}" Click="StartProcessingButton_Click"/>
         <Display:DisplayImageComponent x:Name="SideBySideImagesComponent" Grid.Column="1" Grid.RowSpan="4" Style="{StaticResource GridElementStyle}"/>

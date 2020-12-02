@@ -82,12 +82,12 @@ namespace morphological_image_processing_wpf.Core.Generator
             g.DrawLines(pen, pointList.ToArray());
         }
 
-        public Bitmap GeneratePicture(int numberOfShapes, int maxNumberOfEdges, int maxStrokeThickness)
+        public Bitmap GeneratePicture(int maxNumberOfEdges, int maxStrokeThickness, GeneratorConfiguration configuration)
         {
             Bitmap bitmap = new Bitmap(bitmapWidth, bitmapHeight);
             Graphics graphics = Graphics.FromImage(bitmap);
             
-            for(int i = 0; i <numberOfShapes; i++)
+            for(int i = 0; i < configuration.NumberOfShapes; i++)
             {
                 int minX = rand.Next(100, 200);
                 int maxX = rand.Next(minX, bitmapWidth);
