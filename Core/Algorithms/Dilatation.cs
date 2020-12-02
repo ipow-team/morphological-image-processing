@@ -1,5 +1,6 @@
 ﻿using morphological_image_processing_wpf.Core.Algorithms;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace MorphologicalImageProcessing.Core.Algorithms
@@ -26,24 +27,20 @@ namespace MorphologicalImageProcessing.Core.Algorithms
             {
                 for (int j = 0; j < edges.Height; j++)
                 {
-                    Boolean is_edge = false;
-                    for (int k = i - (boxSize - 1) / 2; k <= i + (boxSize - 1) / 2; k++)
+                   Boolean is_edge = false;
+                    List<Tuple<int, int>> pointsToCheck = CalculatePointsToCheck(configuration.getStructuralElementConfiguration(), Tuple.Create(1, 1));
+
+                    foreach(Tuple<int, int> point in pointsToCheck)
                     {
-                        if (k > 0 && k < edges.Width)
-                        {
-                            for (int l = j - (boxSize - 1) / 2; l <= j + (boxSize - 1) / 2; l++)
-                            {
-                                if (l > 0 && l < edges.Height)
-                                {
-                                    if (image.GetPixel(k, l).GetBrightness() > configuration.BrightnessThreshold)
-                                    {
-                                        is_edge = true;
-                                    }
-                                }
-                            }
+                        int x = i - point.Item1;
+                        int y = j - point.Item2;
+
+                        if(x >= 0 && x < edges.Width && y >= 0 && y < edges.Height && image.GetPixel(x, y).GetBrightness() > configuration.BrightnessThreshold) {
+                            is_edge = true;
                         }
                     }
-                    if (is_edge && image.GetPixel(i, j).GetBrightness() < configuration.BrightnessThreshold)
+                    
+                    if (is_edge && image.GetPixel(i, j).GetBrightness() > configuration.BrightnessThreshold)
                     {
                         edges.SetPixel(i, j, configuration.LineColor);
                     }

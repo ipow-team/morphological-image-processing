@@ -49,16 +49,5 @@ namespace MorphologicalImageProcessing.Core.Algorithms
             }
             return edges.Bitmap;
         }
-        private List<Tuple<int, int>> CalculatePointsToCheck(List<Tuple<int, int>> points, Tuple<int, int> centralPoint) {
-            List<Tuple<int, int>> newPoints = new List<Tuple<int, int>>();
-
-            foreach (Tuple<int, int> point in points) 
-            {
-                newPoints.Add(Tuple.Create(point.Item1 - centralPoint.Item1, point.Item2 - centralPoint.Item2));
-            }
-
-            return newPoints;
-        }
-
     }
 }

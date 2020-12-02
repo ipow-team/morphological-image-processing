@@ -23,6 +23,8 @@ namespace MorphologicalImageProcessing.Core.Algorithms
             }
         }
 
+        List<Tuple<int, int>> CalculatePointsToCheck(List<Tuple<int, int>> points, Tuple<int, int> centralPoint);
+
         Bitmap Convolution(Bitmap originalBitmap,
                                          double[,] xFilterMatrix,
                                          double[,] yFilterMatrix,
@@ -44,6 +46,18 @@ namespace MorphologicalImageProcessing.Core.Algorithms
 
         public Type GetConfigurationClass() {
             return typeof(T);
+        }
+
+        public List<Tuple<int, int>> CalculatePointsToCheck(List<Tuple<int, int>> points, Tuple<int, int> centralPoint)
+        {
+            List<Tuple<int, int>> newPoints = new List<Tuple<int, int>>();
+
+            foreach (Tuple<int, int> point in points)
+            {
+                newPoints.Add(Tuple.Create(point.Item1 - centralPoint.Item1, point.Item2 - centralPoint.Item2));
+            }
+
+            return newPoints;
         }
 
         public Bitmap Convolution(Bitmap originalBitmap,
