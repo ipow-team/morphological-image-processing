@@ -29,7 +29,7 @@ namespace MorphologicalImageProcessing.Core.Algorithms
                 for (int j = 0; j < edges.Height; j++)
                 {
                     Boolean is_edge = false;
-                    List<Tuple<int, int>> pointsToCheck = CalculatePointsToCheck(configuration.getStructuralElementConfiguration(), Tuple.Create(1, 1));
+                    List<Tuple<int, int>> pointsToCheck = CalculatePointsToCheck(configuration.StructuralElementPoints, configuration.Center);
 
                     foreach(Tuple<int, int> point in pointsToCheck)
                     {

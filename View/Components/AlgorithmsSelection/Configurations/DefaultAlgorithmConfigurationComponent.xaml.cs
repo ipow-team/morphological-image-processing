@@ -1,6 +1,7 @@
 ﻿using MorphologicalImageProcessing.Core.Algorithms;
 using System;
 using System.CodeDom;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,12 +18,12 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
         public DefaultAlgorithmConfigurationComponent()
         {
             InitializeComponent();
-            MatrixSizeSelector.Minimum = configuration.MinBoxSize;
-            MatrixSizeSelector.Maximum = configuration.MaxBoxSize;
-            MatrixSizeSelector.Value = configuration.BoxSize;
             BrightnessThresholdSelector.Value = configuration.BrightnessThreshold;
             LineColorPicker.SelectedColor = ConvertColor(configuration.LineColor);
-            StructuralElementConfiguration.ItemsSource = configuration.StructuralElementDataGrid;
+            KernelSelectorComponent.SetShape(configuration.StructuralElementPoints);
+            KernelSelectorComponent.AddOnCenterChangedAction(OnSelectedCenterChangedAction);
+            KernelSelectorComponent.SetCenter(configuration.Center);
+            KernelSelectorComponent.AddOnKernelShapeChangedAction(OnShapeChangedAction);
         }
 
         public IMorphologicalAlgorithmConfiguration GetConfiguration()
@@ -33,11 +34,6 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
         public Control GetControlComponent()
         {
             return this;
-        }
-
-        private void MatrixSizeSelector_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
-        {
-            configuration.BoxSize = (int)MatrixSizeSelector.Value;
         }
 
         private void LineColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
@@ -62,6 +58,26 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
         private void BrightnessThresholdSelector_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             configuration.BrightnessThreshold = Math.Max(0.01, Math.Min(0.99, BrightnessThresholdSelector.Value));
+        }
+
+        private void OnSelectedCenterChangedAction(Tuple<int, int> selectedCenter)
+        {
+            if(selectedCenter == null)
+            {
+                // add validations
+                throw new Exception("Center cannot be empty");
+            }
+            configuration.Center = selectedCenter;
+        }
+
+        private void OnShapeChangedAction(ISet<Tuple<int, int>> shape)
+        {
+            if(shape.Count < 1)
+            {
+                // add validations
+                throw new Exception("Shape cannot be empty");
+            }
+            configuration.StructuralElementPoints = shape;
         }
     }
 }

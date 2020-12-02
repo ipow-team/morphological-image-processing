@@ -185,55 +185,31 @@ namespace MorphologicalImageProcessing.Core.Algorithms
 
     class DefaultMorphologicalAlgorithmConfiguration : IMorphologicalAlgorithmConfiguration
     {
-        public int BoxSize { get; set; } = 3;
-        public int MinBoxSize { get; } = 2;
-        public int MaxBoxSize { get; } = 10;
-
-        public List<DataGridRow> StructuralElementDataGrid { get; set; } = new List<DataGridRow>() { new DataGridRow(), new DataGridRow(), new DataGridRow(), new DataGridRow(), new DataGridRow()};
-
         public double BrightnessThreshold { get; set; } = 0.02;
 
         public Color LineColor { get; set; } = Color.Red;
 
-        public List<Tuple<int, int>> getStructuralElementConfiguration()
+        private readonly ISet<Tuple<int, int>> _structuralElementShape = new HashSet<Tuple<int, int>>()
         {
-            List<Tuple<int, int>> StructuralElementPoints = new List<Tuple<int, int>>();
-            for(int i = 0; i < StructuralElementDataGrid.Count; i++)
-            {
-                if (StructuralElementDataGrid[i].Column1)
-                {
-                    StructuralElementPoints.Add(Tuple.Create(i, 0));
-                }
-                if (StructuralElementDataGrid[i].Column2)
-                {
-                    StructuralElementPoints.Add(Tuple.Create(i, 1));
-                }
-                if (StructuralElementDataGrid[i].Column3)
-                {
-                    StructuralElementPoints.Add(Tuple.Create(i, 2));
-                }
-                if (StructuralElementDataGrid[i].Column4)
-                {
-                    StructuralElementPoints.Add(Tuple.Create(i, 3));
-                }
-                if (StructuralElementDataGrid[i].Column5)
-                {
-                    StructuralElementPoints.Add(Tuple.Create(i, 4));
-                }
-            }
+            Tuple.Create(0, 0), Tuple.Create(0, 1), Tuple.Create(0, 2),
+            Tuple.Create(1, 0), Tuple.Create(1, 1), Tuple.Create(1, 2),
+            Tuple.Create(2, 0), Tuple.Create(2, 1), Tuple.Create(2, 2)
+        };
 
-            return StructuralElementPoints;
+        public ISet<Tuple<int, int>> StructuralElementPoints
+        {
+            get
+            {
+                return _structuralElementShape;
+            }
+            set
+            {
+                _structuralElementShape.Clear();
+                _structuralElementShape.UnionWith(value);
+            }
         }
 
-    }
-
-    class DataGridRow
-    {
-        public bool Column1 { get; set; }
-        public bool Column2 { get; set; }
-        public bool Column3 { get; set; }
-        public bool Column4 { get; set; }
-        public bool Column5 { get; set; }
+        public Tuple<int, int> Center { get; set; } = Tuple.Create(1, 1);
     }
 
     class EmptyMorphologicalAlgorithmConfiguration: IMorphologicalAlgorithmConfiguration

@@ -21,7 +21,7 @@ namespace MorphologicalImageProcessing.Core.Algorithms
         {
             DirectBitmap edges = new DirectBitmap(original);
             DirectBitmap image = new DirectBitmap(original);
-            int boxSize = 2 * (configuration.BoxSize) + 1;
+            int boxSize = 2 * (3) + 1;
 
             for (int i = 0; i < edges.Width; i++)
             {
