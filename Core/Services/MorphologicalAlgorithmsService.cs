@@ -10,7 +10,9 @@ namespace MorphologicalImageProcessing.Core.Services
             new Erosion(),
             new Opening(),
             new Closing(),
-            new Sobel()
+            new Sobel(),
+            new Prewitt(),
+            new Kirsch()
         };
 
         public IList<IAlgorithm> GetAllAlgorithms()
