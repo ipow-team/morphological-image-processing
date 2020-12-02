@@ -15,9 +15,21 @@
             <Label Content="Line Color" HorizontalAlignment="Stretch" Height="28"/>
             <xctk:ColorPicker x:Name="LineColorPicker" SelectedColorChanged="LineColorPicker_SelectedColorChanged" />
         </StackPanel>
-        <StackPanel VerticalAlignment="Top">
+        <StackPanel>
             <Label Content="Brightness Threshold" HorizontalAlignment="Stretch" Height="28"/>
             <Slider x:Name="BrightnessThresholdSelector" IsSnapToTickEnabled="True" TickFrequency="0.01" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="2" HorizontalAlignment="Stretch" ValueChanged="BrightnessThresholdSelector_ValueChanged" Maximum="0.99" Minimum="0.01" />
+        </StackPanel>
+        <StackPanel VerticalAlignment="Top">
+            <Label Content="Strutural Element" HorizontalAlignment="Stretch" Height="28"/>
+            <DataGrid AutoGenerateColumns="False" x:Name="StructuralElementConfiguration">
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Header="1" Width="23" Binding="{Binding Column1}"/>
+                    <DataGridCheckBoxColumn Header="2" Width="23" Binding="{Binding Column2}"/>
+                    <DataGridCheckBoxColumn Header="3" Width="23" Binding="{Binding Column3}"/>
+                    <DataGridCheckBoxColumn Header="4" Width="23" Binding="{Binding Column4}"/>
+                    <DataGridCheckBoxColumn Header="5" Width="23" Binding="{Binding Column5}"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </StackPanel>
     </StackPanel>
 </UserControl>

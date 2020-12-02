@@ -22,6 +22,7 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
             MatrixSizeSelector.Value = configuration.BoxSize;
             BrightnessThresholdSelector.Value = configuration.BrightnessThreshold;
             LineColorPicker.SelectedColor = ConvertColor(configuration.LineColor);
+            StructuralElementConfiguration.ItemsSource = configuration.StructuralElementDataGrid;
         }
 
         public IMorphologicalAlgorithmConfiguration GetConfiguration()
