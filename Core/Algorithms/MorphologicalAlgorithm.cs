@@ -22,15 +22,6 @@ namespace MorphologicalImageProcessing.Core.Algorithms
                 return GetName();
             }
         }
-
-        List<Tuple<int, int>> CalculatePointsToCheck(List<Tuple<int, int>> points, Tuple<int, int> centralPoint);
-
-        Bitmap Convolution(Bitmap originalBitmap,
-                                         double[,] xFilterMatrix,
-                                         double[,] yFilterMatrix,
-                                         double factor = 1,
-                                         int bias = 0,
-                                         bool grayscale = false);
     }
 
     abstract class MorphologicalAlgorithm<T> : IAlgorithm where T : IMorphologicalAlgorithmConfiguration
@@ -48,7 +39,7 @@ namespace MorphologicalImageProcessing.Core.Algorithms
             return typeof(T);
         }
 
-        public List<Tuple<int, int>> CalculatePointsToCheck(List<Tuple<int, int>> points, Tuple<int, int> centralPoint)
+        protected List<Tuple<int, int>> CalculatePointsToCheck(ISet<Tuple<int, int>> points, Tuple<int, int> centralPoint)
         {
             List<Tuple<int, int>> newPoints = new List<Tuple<int, int>>();
 
@@ -60,12 +51,12 @@ namespace MorphologicalImageProcessing.Core.Algorithms
             return newPoints;
         }
 
-        public Bitmap Convolution(Bitmap originalBitmap,
-                                  double[,] xMatrix,
-                                  double[,] yMatrix,
-                                  double factor = 1,
-                                  int bias = 0,
-                                  bool convertToGrayScale = false)
+        protected Bitmap Convolution(Bitmap originalBitmap,
+                                      double[,] xMatrix,
+                                      double[,] yMatrix,
+                                      double factor = 1,
+                                      int bias = 0,
+                                      bool convertToGrayScale = false)
         {
             BitmapData sourceData = originalBitmap.LockBits(new Rectangle(0, 0, originalBitmap.Width, originalBitmap.Height),
                                                             ImageLockMode.ReadOnly,

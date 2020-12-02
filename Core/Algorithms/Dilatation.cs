@@ -21,16 +21,15 @@ namespace MorphologicalImageProcessing.Core.Algorithms
         {
             DirectBitmap edges = new DirectBitmap(original);
             DirectBitmap image = new DirectBitmap(original);
-            int boxSize = 2 * (3) + 1;
 
             for (int i = 0; i < edges.Width; i++)
             {
                 for (int j = 0; j < edges.Height; j++)
                 {
                    Boolean is_edge = false;
-                    List<Tuple<int, int>> pointsToCheck = CalculatePointsToCheck(configuration.getStructuralElementConfiguration(), Tuple.Create(1, 1));
+                    List<Tuple<int, int>> pointsToCheck = CalculatePointsToCheck(configuration.StructuralElementPoints, configuration.Center);
 
-                    foreach(Tuple<int, int> point in pointsToCheck)
+                    foreach (Tuple<int, int> point in pointsToCheck)
                     {
                         int x = i - point.Item1;
                         int y = j - point.Item2;
