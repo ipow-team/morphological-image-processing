@@ -5,8 +5,8 @@ namespace MorphologicalImageProcessing.Core.Algorithms
     class Opening : MorphologicalAlgorithm<DefaultMorphologicalAlgorithmConfiguration>
     {
 
-        private Erosion _erosion = new Erosion();
-        private Dilatation _dilatation = new Dilatation();
+        private readonly Erosion _erosion = new Erosion();
+        private readonly Dilatation _dilatation = new Dilatation();
 
         protected override Bitmap Apply(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration)
         {

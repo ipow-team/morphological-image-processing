@@ -1,14 +1,11 @@
 ﻿using MorphologicalImageProcessing.Core.Algorithms;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 
 namespace morphological_image_processing_wpf.Core.Algorithms
 {
-    class Sobel : MorphologicalAlgorithm<DefaultMorphologicalAlgorithmConfiguration>
+    class Sobel : ConvolutionMorphologicalAlgorithm<EmptyMorphologicalAlgorithmConfiguration>
     {
-        protected override Bitmap Apply(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration)
+        protected override Bitmap Apply(Bitmap image, EmptyMorphologicalAlgorithmConfiguration configuration)
         {
             return DrawEdges(image);
         }
