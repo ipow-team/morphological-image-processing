@@ -1,8 +1,7 @@
-﻿using System;
+﻿using morphological_image_processing_wpf.Core.Converters;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
 using Color = System.Drawing.Color;
 
 namespace MorphologicalImageProcessing.Core.Algorithms
@@ -52,7 +51,10 @@ namespace MorphologicalImageProcessing.Core.Algorithms
         }
     }
 
-    public interface IMorphologicalAlgorithmConfiguration { }
+    [JsonInterfaceConverter(typeof(MorphologicalAlgorithmConfigurationJsonConverter))]
+    public interface IMorphologicalAlgorithmConfiguration {
+        void SetValuesFrom(IMorphologicalAlgorithmConfiguration other);
+    }
 
     class DefaultMorphologicalAlgorithmConfiguration : IMorphologicalAlgorithmConfiguration
     {
@@ -81,10 +83,30 @@ namespace MorphologicalImageProcessing.Core.Algorithms
         }
 
         public Tuple<int, int> Center { get; set; } = Tuple.Create(1, 1);
+
+        public void SetValuesFrom(IMorphologicalAlgorithmConfiguration other)
+        {
+            if (typeof(DefaultMorphologicalAlgorithmConfiguration).IsAssignableFrom(other.GetType()))
+            {
+                SetValuesFrom((DefaultMorphologicalAlgorithmConfiguration)other);
+            }
+            
+        }
+
+        public void SetValuesFrom(DefaultMorphologicalAlgorithmConfiguration other)
+        {
+            BrightnessThreshold = other.BrightnessThreshold;
+            LineColor = other.LineColor;
+            StructuralElementPoints = other._structuralElementShape;
+            Center = other.Center;
+        }
     }
 
     class EmptyMorphologicalAlgorithmConfiguration: IMorphologicalAlgorithmConfiguration
     {
-
+        public void SetValuesFrom(IMorphologicalAlgorithmConfiguration other)
+        {
+            // No neeed, empty configuration
+        }
     }
 }

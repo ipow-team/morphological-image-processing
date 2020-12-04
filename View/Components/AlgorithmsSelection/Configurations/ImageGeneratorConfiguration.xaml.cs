@@ -37,5 +37,10 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
         {
             configuration.NumberOfShapes = (int) NumberOfShapesSelector.Value;
         }
+
+        public void SetFromExternalConfiguration(GeneratorConfiguration otherConfiguration)
+        {
+            configuration.SetValuesFrom(otherConfiguration);
+        }
     }
 }

@@ -41,6 +41,11 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
         {
             return _algorithmConfigurationsViewModel.GetCurrentAlgorithmConfiguration();
         }
+
+        public void SetCurrentConfiguration(IAlgorithm algorithm, IMorphologicalAlgorithmConfiguration config)
+        {
+            _algorithmConfigurationsViewModel.SetCurrentConfiguration(algorithm, config);
+        }
     }
 
     class AlgoritmConfigurationDictionary : Dictionary<Type, IConfigurationComponent>
@@ -102,6 +107,13 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
         {
             _configurations = configurationsDictionary;
             InitializeConfigurationFields(_configurations);
+        }
+
+        public void SetCurrentConfiguration(IAlgorithm newAlgorithm, IMorphologicalAlgorithmConfiguration config)
+        {
+            CurrentAlgorithm = newAlgorithm;
+            _CurrentConfigurationComponent.GetConfiguration()
+                .SetValuesFrom(config);
         }
 
         public IMorphologicalAlgorithmConfiguration GetCurrentAlgorithmConfiguration()

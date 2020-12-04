@@ -1,9 +1,14 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.IO;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Win32;
+using morphological_image_processing_wpf.Core.Converters;
 using morphological_image_processing_wpf.Core.Generator;
 using MorphologicalImageProcessing.Core.Algorithms;
+using Newtonsoft.Json;
 
 namespace morphological_image_processing_wpf
 {
@@ -83,5 +88,92 @@ namespace morphological_image_processing_wpf
             ImageGenerator imageGenerator = new ImageGenerator(500, 500);
             SideBySideImagesComponent.SetBeforeImage(imageGenerator.GeneratePicture(5, 10, (GeneratorConfiguration) ImageGeneratorConfigurationComponent.GetConfiguration()));
         }
+
+        private void LoadConfiguratioButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Title = "Select configuration file",
+                Filter = "Json file (*.json)|*.json"
+            };
+            if (openFileDialog.ShowDialog() == true)
+            {
+                //SideBySideImagesComponent.SetBeforeImage(openFileDialog.FileName);
+                //SideBySideImagesComponent.SetAfterImage(null);
+                using (StreamReader r = new StreamReader(openFileDialog.FileName)) {
+                    var jsonString = r.ReadToEnd();
+                    BaseConfiguration baseConfiguration = JsonConvert.DeserializeObject<BaseConfiguration>(jsonString);
+                    ApplyConfiguration(baseConfiguration, jsonString);
+                };
+            }
+        }
+
+        // TODO: This is just a workaround. It's necessary to finda a better solution
+        private void ApplyConfiguration(BaseConfiguration baseConfiguration, string jsonString)
+        {
+            var algorithm = AlgorithmSelectionComponent.GetAlgorithmByName(baseConfiguration.Algorithm);
+            AlgorithmSelectionComponent.SetSelectedAlgorithm(baseConfiguration.Algorithm);
+            ImageGeneratorConfigurationComponent.SetFromExternalConfiguration(baseConfiguration.GeneratorConfig);
+
+            switch(baseConfiguration.ConfigClass)
+            {
+                case "DefaultMorphologicalAlgorithmConfiguration":
+                    ApplyConfiguration<DefaultMorphologicalAlgorithmConfiguration>(algorithm, jsonString);
+                    break;
+                case "EmptyMorphologicalAlgorithmConfiguration":
+                    ApplyConfiguration<EmptyMorphologicalAlgorithmConfiguration>(algorithm, jsonString);
+                    break;
+                default:
+                    throw new Exception("Unknown configuration type");
+            }
+        }
+
+        private void ApplyConfiguration<T>(IAlgorithm algorithm, string jsonString) where T : IMorphologicalAlgorithmConfiguration
+        {
+            AlgorithmSelectionComponent.SetCurrentConfiguration(algorithm, JsonConvert.DeserializeObject<Configuration<T>>(jsonString, new ColorJsonConverter()).Config);
+        }
+
+        private void SaveConfiguratioButton_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog()
+            {
+                Title = "Save configuration to disk",
+                Filter = "Json file (*.json)|*.json",
+                FilterIndex = 1,
+                RestoreDirectory = true
+            };
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                var config = AlgorithmSelectionComponent.GetCurrentConfiguration();
+                var configToSave = new Configuration<IMorphologicalAlgorithmConfiguration>()
+                {
+                    Algorithm = AlgorithmSelectionComponent.GetSelectedAlgorithm().Name,
+                    Config = config,
+                    ConfigClass = config.GetType().Name,
+                    GeneratorConfig = (GeneratorConfiguration)ImageGeneratorConfigurationComponent.GetConfiguration()
+                };
+                var options = new JsonSerializerOptions()
+                {
+                    WriteIndented = true,
+                    MaxDepth = 10
+                };
+                var jsonString = System.Text.Json.JsonSerializer.Serialize(configToSave, options);
+                File.WriteAllText(saveFileDialog.FileName, jsonString);
+            }
+        }
+    }
+
+    public class Configuration<T> : BaseConfiguration where T: IMorphologicalAlgorithmConfiguration
+    {
+        public T Config { get; set; }
+    }   
+
+    public class BaseConfiguration
+    {
+        public string Algorithm { get; set; }
+        
+        public string ConfigClass { get; set; }
+
+        public GeneratorConfiguration GeneratorConfig { get; set; }
     }
 }

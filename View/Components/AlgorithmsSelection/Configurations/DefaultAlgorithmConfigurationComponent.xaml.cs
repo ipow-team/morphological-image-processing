@@ -18,12 +18,7 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
         public DefaultAlgorithmConfigurationComponent()
         {
             InitializeComponent();
-            BrightnessThresholdSelector.Value = configuration.BrightnessThreshold;
-            LineColorPicker.SelectedColor = ConvertColor(configuration.LineColor);
-            KernelSelectorComponent.SetShape(configuration.StructuralElementPoints);
-            KernelSelectorComponent.AddOnCenterChangedAction(OnSelectedCenterChangedAction);
-            KernelSelectorComponent.SetCenter(configuration.Center);
-            KernelSelectorComponent.AddOnKernelShapeChangedAction(OnShapeChangedAction);
+            SetValuesFrom(configuration);
         }
 
         public IMorphologicalAlgorithmConfiguration GetConfiguration()
@@ -78,6 +73,26 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
                 throw new Exception("Shape cannot be empty");
             }
             configuration.StructuralElementPoints = shape;
+        }
+
+        public void SetValuesFrom(IMorphologicalAlgorithmConfiguration other)
+        {
+            if (typeof(DefaultMorphologicalAlgorithmConfiguration).IsAssignableFrom(other.GetType()))
+            {
+                SetValuesFrom((DefaultMorphologicalAlgorithmConfiguration)other);
+            }
+
+        }
+
+        private void SetValuesFrom(DefaultMorphologicalAlgorithmConfiguration other)
+        {
+            configuration.SetValuesFrom(other);
+            BrightnessThresholdSelector.Value = other.BrightnessThreshold;
+            LineColorPicker.SelectedColor = ConvertColor(other.LineColor);
+            KernelSelectorComponent.SetShape(other.StructuralElementPoints);
+            KernelSelectorComponent.AddOnCenterChangedAction(OnSelectedCenterChangedAction);
+            KernelSelectorComponent.SetCenter(other.Center);
+            KernelSelectorComponent.AddOnKernelShapeChangedAction(OnShapeChangedAction);
         }
     }
 }

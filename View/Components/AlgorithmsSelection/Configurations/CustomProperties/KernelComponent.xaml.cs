@@ -18,8 +18,8 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
         private readonly List<Action<Tuple<int, int>>> _onSelectedCenterChangedActions = new List<Action<Tuple<int, int>>>();
         private readonly List<Action<ISet<Tuple<int, int>>>> _onKernelShapeChangedActions = new List<Action<ISet<Tuple<int, int>>>>();
 
-        private PositionedRadioButtonGrid _centralPointGrid;
-        private PositionedCheckBoxGrid _kernelShapeGrid;
+        private readonly PositionedRadioButtonGrid _centralPointGrid;
+        private readonly PositionedCheckBoxGrid _kernelShapeGrid;
 
         // TODO: Implement validation for minimum kernel size and minimum center
         public KernelComponent()
