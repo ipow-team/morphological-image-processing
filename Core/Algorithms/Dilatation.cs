@@ -39,7 +39,7 @@ namespace MorphologicalImageProcessing.Core.Algorithms
                         }
                     }
                     
-                    if (is_edge && image.GetPixel(i, j).GetBrightness() > configuration.BrightnessThreshold)
+                    if (is_edge && image.GetPixel(i, j).GetBrightness() < configuration.BrightnessThreshold)
                     {
                         edges.SetPixel(i, j, configuration.LineColor);
                     }
