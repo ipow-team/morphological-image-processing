@@ -82,7 +82,7 @@ namespace morphological_image_processing_wpf.Core.Generator
             g.DrawLines(pen, pointList.ToArray());
         }
 
-        public Bitmap GeneratePicture(int maxNumberOfEdges, int maxStrokeThickness, GeneratorConfiguration configuration)
+        public Bitmap GeneratePicture(GeneratorConfiguration configuration)
         {
             Bitmap bitmap = new Bitmap(bitmapWidth, bitmapHeight);
             Graphics graphics = Graphics.FromImage(bitmap);
@@ -102,13 +102,13 @@ namespace morphological_image_processing_wpf.Core.Generator
                 switch (rand.Next(0, 3))
                 {
                     case 0:
-                        DrawEllipse(graphics, maxStrokeThickness, minX, maxX, minY, maxY, isFilled, moveX, moveY);
+                        DrawEllipse(graphics, configuration.MaxStrokeThickness, minX, maxX, minY, maxY, isFilled, moveX, moveY);
                         break;
                     case 1:
-                        DrawPolygon(graphics, maxNumberOfEdges, maxStrokeThickness, minX, maxX, minY, maxY, isFilled, moveX, moveY);
+                        DrawPolygon(graphics, configuration.MaxNumberOfEdges, configuration.MaxStrokeThickness, minX, maxX, minY, maxY, isFilled, moveX, moveY);
                         break;
                     case 2:
-                        DrawPolyline(graphics, maxNumberOfEdges, maxStrokeThickness, minX, maxX, minY, maxY, moveX, moveY);
+                        DrawPolyline(graphics, configuration.MaxNumberOfEdges, configuration.MaxStrokeThickness, minX, maxX, minY, maxY, moveX, moveY);
                         break;
                 }
             }

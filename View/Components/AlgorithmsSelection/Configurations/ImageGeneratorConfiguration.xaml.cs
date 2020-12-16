@@ -26,6 +26,14 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
             NumberOfShapesSelector.Minimum = 1;
             NumberOfShapesSelector.Maximum = 10;
             NumberOfShapesSelector.Value = configuration.NumberOfShapes;
+
+            NumberOfEdgesSelector.Minimum = 3;
+            NumberOfEdgesSelector.Maximum = 10;
+            NumberOfEdgesSelector.Value = configuration.MaxNumberOfEdges;
+
+            StrokeThicknessSelector.Minimum = 1;
+            StrokeThicknessSelector.Maximum = 15;
+            StrokeThicknessSelector.Value = configuration.MaxStrokeThickness;
         }
 
         public IGeneratorConfiguration GetConfiguration()
@@ -36,6 +44,16 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
         private void NumberOfShapesSelector_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
         {
             configuration.NumberOfShapes = (int) NumberOfShapesSelector.Value;
+        }
+
+        private void NumberOfEdgesSelector_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
+        {
+            configuration.MaxNumberOfEdges = (int)NumberOfEdgesSelector.Value;
+        }
+
+        private void StrokeThicknessSelector_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
+        {
+            configuration.MaxStrokeThickness = (int)StrokeThicknessSelector.Value;
         }
 
         public void SetFromExternalConfiguration(GeneratorConfiguration otherConfiguration)

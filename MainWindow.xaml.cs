@@ -86,7 +86,7 @@ namespace morphological_image_processing_wpf
         private void GenerateImageBtnClick(object sender, RoutedEventArgs e)
         {
             ImageGenerator imageGenerator = new ImageGenerator(500, 500);
-            SideBySideImagesComponent.SetBeforeImage(imageGenerator.GeneratePicture(5, 10, (GeneratorConfiguration) ImageGeneratorConfigurationComponent.GetConfiguration()));
+            SideBySideImagesComponent.SetBeforeImage(imageGenerator.GeneratePicture((GeneratorConfiguration) ImageGeneratorConfigurationComponent.GetConfiguration()));
         }
 
         private void LoadConfiguratioButton_Click(object sender, RoutedEventArgs e)

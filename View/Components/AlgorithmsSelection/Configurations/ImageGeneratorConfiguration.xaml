@@ -6,10 +6,20 @@
       xmlns:local="clr-namespace:morphological_image_processing_wpf.View.Components.AlgorithmsSelection.Configurations"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="200">
-    <DockPanel Height="Auto" Width="Auto" LastChildFill="True" Margin="10,10,10,10">
+    <DockPanel Height="Auto" Width="Auto"  LastChildFill="True" Margin="10,10,10,10">
         <StackPanel VerticalAlignment="Top">
-            <Label Content="Number of shapes" HorizontalAlignment="Stretch" Height="28"/>
-            <Slider x:Name="NumberOfShapesSelector" IsSnapToTickEnabled="True" TickFrequency="1" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" HorizontalAlignment="Stretch" ValueChanged="NumberOfShapesSelector_ValueChanged" />
+            <StackPanel Margin="0 0 0 10">
+                <Label Content="Number of shapes" HorizontalAlignment="Stretch" Height="28"/>
+                <Slider x:Name="NumberOfShapesSelector" IsSnapToTickEnabled="True" TickFrequency="1" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" HorizontalAlignment="Stretch" ValueChanged="NumberOfShapesSelector_ValueChanged" />
+            </StackPanel>
+            <StackPanel Margin="0 0 0 10">
+                <Label Content="Maximum number of edges" HorizontalAlignment="Stretch" Height="28"/>
+                <Slider x:Name="NumberOfEdgesSelector" IsSnapToTickEnabled="True" TickFrequency="1" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" HorizontalAlignment="Stretch" ValueChanged="NumberOfEdgesSelector_ValueChanged" />
+            </StackPanel>
+            <StackPanel Margin="0 0 0 10">
+                <Label Content="Maximum Stroke Thickness" HorizontalAlignment="Stretch" Height="28"/>
+                <Slider x:Name="StrokeThicknessSelector" IsSnapToTickEnabled="True" TickFrequency="1" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" HorizontalAlignment="Stretch" ValueChanged="StrokeThicknessSelector_ValueChanged" />
+            </StackPanel>
         </StackPanel>
     </DockPanel>
 </UserControl>
