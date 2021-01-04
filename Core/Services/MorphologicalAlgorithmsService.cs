@@ -1,4 +1,5 @@
 ﻿using morphological_image_processing_wpf.Core.Algorithms;
+using morphological_image_processing_wpf.Core.ChangesDetection;
 using MorphologicalImageProcessing.Core.Algorithms;
 using System.Collections.Generic;
 namespace MorphologicalImageProcessing.Core.Services
@@ -12,7 +13,8 @@ namespace MorphologicalImageProcessing.Core.Services
             new Closing(),
             new Sobel(),
             new Prewitt(),
-            new Kirsch()
+            new Kirsch(),
+            new DetectChanges()
         };
 
         public IList<IAlgorithm> GetAllAlgorithms()

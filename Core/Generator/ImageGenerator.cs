@@ -86,8 +86,11 @@ namespace morphological_image_processing_wpf.Core.Generator
         {
             Bitmap bitmap = new Bitmap(bitmapWidth, bitmapHeight);
             Graphics graphics = Graphics.FromImage(bitmap);
-            
-            for(int i = 0; i < configuration.NumberOfShapes; i++)
+            for (int i = 0; i < bitmapWidth; i++)
+                for (int j = 0; j < bitmapHeight; j++)
+                    bitmap.SetPixel(i, j, Color.White);
+
+            for (int i = 0; i < configuration.NumberOfShapes; i++)
             {
                 int minX = rand.Next(100, 200);
                 int maxX = rand.Next(minX, bitmapWidth);

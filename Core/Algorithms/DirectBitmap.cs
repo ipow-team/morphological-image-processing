@@ -24,6 +24,9 @@ namespace morphological_image_processing_wpf.Core.Algorithms
             Bits = new Int32[width * height];
             BitsHandle = GCHandle.Alloc(Bits, GCHandleType.Pinned);
             Bitmap = new Bitmap(width, height, width * 4, PixelFormat.Format32bppPArgb, BitsHandle.AddrOfPinnedObject());
+            for (int i = 0; i < Width; i++)
+                for (int j = 0; j < Height; j++)
+                    SetPixel(i, j, Color.White);
         }
 
         public DirectBitmap(Bitmap bitmap)
