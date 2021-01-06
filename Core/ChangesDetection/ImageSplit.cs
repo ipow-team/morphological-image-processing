@@ -11,6 +11,7 @@ namespace morphological_image_processing_wpf.Core.ChangesDetection
         readonly DirectBitmap image;
         bool[,] visitedPixels;
         bool[,] pixelsInQueue;
+        bool[,] pixelsInHelperQueue;
         readonly int imageWidth;
         readonly int imageHeight;
         readonly List<DirectBitmap> figures;
@@ -24,6 +25,7 @@ namespace morphological_image_processing_wpf.Core.ChangesDetection
             imageHeight = image.Height;
             this.visitedPixels = new bool[imageWidth, imageHeight];
             this.pixelsInQueue = new bool[imageWidth, imageHeight];
+            this.pixelsInHelperQueue = new bool[imageWidth, imageHeight];
             isFigureFound = false;
             figures = new List<DirectBitmap>();
         }
@@ -36,6 +38,7 @@ namespace morphological_image_processing_wpf.Core.ChangesDetection
                 {
                     visitedPixels[i, j] = false;
                     pixelsInQueue[i, j] = false;
+                    pixelsInHelperQueue[i, j] = false;
                 }
             }
 
@@ -63,12 +66,12 @@ namespace morphological_image_processing_wpf.Core.ChangesDetection
                
                 if (IsPartOfFigure(currentPixel.Item1, currentPixel.Item2))
                 {
-                    helperQueue = AddNeighbourhoodToCheck(helperQueue, currentPixel.Item1, currentPixel.Item2);
+                    helperQueue = AddNeighbourhoodToCheck(helperQueue, currentPixel.Item1, currentPixel.Item2, true);
                     AddPixelToFigure(currentPixel);
                 } 
                 else
                 {
-                    pixelsToVisit = AddNeighbourhoodToCheck(pixelsToVisit, currentPixel.Item1, currentPixel.Item2);
+                    pixelsToVisit = AddNeighbourhoodToCheck(pixelsToVisit, currentPixel.Item1, currentPixel.Item2, false);
                 }
 
                 while (pixelsToVisit.Count == 0 && helperQueue.Count == 0 && xx < imageWidth && yy < imageHeight)
@@ -109,17 +112,25 @@ namespace morphological_image_processing_wpf.Core.ChangesDetection
             return result;
         }
 
-        private Queue<Tuple<int, int>> AddNeighbourhoodToCheck(Queue<Tuple<int, int>> queue, int coorX, int coorY)
+        private Queue<Tuple<int, int>> AddNeighbourhoodToCheck(Queue<Tuple<int, int>> queue, int coorX, int coorY, bool isHelperQueue)
         {
             for (int i = Math.Max(coorX - 1, 0); i <= Math.Min(coorX + 1, imageWidth - 1); i++)
             {
                 for (int j = Math.Max(coorY - 1, 0); j <= Math.Min(coorY + 1, imageHeight - 1); j++)
                 {
                     var tuple = Tuple.Create(i, j);
-                    if (visitedPixels[i, j] == false && pixelsInQueue[i, j] == false)
+                    if (visitedPixels[i, j] == false)
                     {
-                        queue.Enqueue(tuple);
-                        pixelsInQueue[i, j] = true;
+                        if (isHelperQueue && pixelsInHelperQueue[i, j] == false)
+                        {
+                            queue.Enqueue(tuple);
+                            pixelsInHelperQueue[i, j] = true;
+                        }
+                        else if (!isHelperQueue && pixelsInQueue[i, j] == false)
+                        {
+                            queue.Enqueue(tuple);
+                            pixelsInQueue[i, j] = true;
+                        }
                     }
                 }
             }
