@@ -1,4 +1,5 @@
 ﻿using morphological_image_processing_wpf.Core.Algorithms;
+using morphological_image_processing_wpf.Core.Algorithms.Advanced;
 using morphological_image_processing_wpf.Core.ChangesDetection;
 using MorphologicalImageProcessing.Core.Algorithms;
 using System.Collections.Generic;
@@ -11,9 +12,7 @@ namespace MorphologicalImageProcessing.Core.Services
             new Erosion(),
             new Opening(),
             new Closing(),
-            new Sobel(),
-            new Prewitt(),
-            new Kirsch(),
+            new CompassEdgeDetection(),
             new DetectChanges()
         };
 

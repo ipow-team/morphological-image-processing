@@ -1,10 +1,9 @@
-﻿using morphological_image_processing_wpf.Core.Algorithms;
-using MorphologicalImageProcessing.Core.Algorithms;
+﻿using MorphologicalImageProcessing.Core.Algorithms;
 using System.Drawing;
 
 namespace morphological_image_processing_wpf.Core.ChangesDetection
 {
-    class DetectChanges : ConvolutionMorphologicalAlgorithm<EmptyMorphologicalAlgorithmConfiguration>
+    class DetectChanges : MorphologicalAlgorithm<EmptyMorphologicalAlgorithmConfiguration>
     {
         public override string GetName()
         {
