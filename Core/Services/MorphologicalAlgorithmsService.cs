@@ -1,4 +1,5 @@
-﻿using MorphologicalImageProcessing.Core.Algorithms;
+﻿using morphological_image_processing_wpf.Core.Algorithms.Advanced;
+using MorphologicalImageProcessing.Core.Algorithms;
 using System.Collections.Generic;
 namespace MorphologicalImageProcessing.Core.Services
 {
@@ -8,7 +9,8 @@ namespace MorphologicalImageProcessing.Core.Services
             new Dilatation(),
             new Erosion(),
             new Opening(),
-            new Closing()
+            new Closing(),
+            new CompassEdgeDetection()
         };
 
         public IList<IAlgorithm> GetAllAlgorithms()

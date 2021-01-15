@@ -1,4 +1,5 @@
-﻿using MorphologicalImageProcessing.Core.Algorithms;
+﻿using morphological_image_processing_wpf.Core.Algorithms.Advanced.Configs;
+using MorphologicalImageProcessing.Core.Algorithms;
 using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
@@ -14,7 +15,8 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
 
         private static readonly AlgoritmConfigurationDictionary _algorithmConfigurationsDictionary = new AlgoritmConfigurationDictionary()
             {
-                { typeof(DefaultMorphologicalAlgorithmConfiguration), new DefaultAlgorithmConfigurationComponent() }
+                { typeof(DefaultMorphologicalAlgorithmConfiguration), new DefaultAlgorithmConfigurationComponent() },
+                { typeof(CompassEdgeConfiguration), new CompassEdgeConfigurationComponent() }
             };
 
         public BaseAlgorithmConfigurationComponent()
@@ -40,6 +42,11 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
         public IMorphologicalAlgorithmConfiguration GetCurrentConfiguration()
         {
             return _algorithmConfigurationsViewModel.GetCurrentAlgorithmConfiguration();
+        }
+
+        public void SetCurrentConfiguration(IAlgorithm algorithm, IMorphologicalAlgorithmConfiguration config)
+        {
+            _algorithmConfigurationsViewModel.SetCurrentConfiguration(algorithm, config);
         }
     }
 
@@ -102,6 +109,17 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
         {
             _configurations = configurationsDictionary;
             InitializeConfigurationFields(_configurations);
+        }
+
+        public void SetCurrentConfiguration(IAlgorithm newAlgorithm, IMorphologicalAlgorithmConfiguration config)
+        {
+            CurrentAlgorithm = newAlgorithm;
+            _CurrentConfigurationComponent = _configurations[newAlgorithm.GetConfigurationClass()];
+            if(_CurrentConfigurationComponent.GetConfiguration() != config)
+            {
+                _CurrentConfigurationComponent.GetConfiguration().SetValuesFrom(config);
+            }
+            _CurrentConfigurationComponent.SetValuesFrom(config);
         }
 
         public IMorphologicalAlgorithmConfiguration GetCurrentAlgorithmConfiguration()

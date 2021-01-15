@@ -42,6 +42,30 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
             }
         }
 
+        public void SetSelectedAlgorithm(string algorithmName)
+        {
+            foreach(AlgorithmEntry entry in _algorithmSelectionViewModel.AlgorithmEntries)
+            {
+                if(entry.Name.Equals(algorithmName))
+                {
+                    AlgorithmComboBox.SelectedItem = entry;
+                }
+            }
+        }
+
+        public IAlgorithm GetAlgorithmByName(string algorithmName)
+        {
+            foreach (AlgorithmEntry entry in _algorithmSelectionViewModel.AlgorithmEntries)
+            {
+                if (entry.Name.Equals(algorithmName))
+                {
+                    return entry.Algorithm;
+                }
+            }
+
+            return null;
+        }
+
         public IAlgorithm GetSelectedAlgorithm()
         {
             return _algorithmSelectionViewModel.SelectedAlgorithm;
@@ -50,6 +74,11 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
         public IMorphologicalAlgorithmConfiguration GetCurrentConfiguration()
         {
             return baseAlgorithmConfigurationComponent.GetCurrentConfiguration();
+        }
+
+        public void SetCurrentConfiguration(IAlgorithm algorithm, IMorphologicalAlgorithmConfiguration config)
+        {
+            baseAlgorithmConfigurationComponent.SetCurrentConfiguration(algorithm, config);
         }
 
         public class AlgorithmSelectionViewModel

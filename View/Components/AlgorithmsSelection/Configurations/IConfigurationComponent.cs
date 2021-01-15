@@ -11,6 +11,8 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
 
         public Control GetControlComponent();
 
+        void SetValuesFrom(IMorphologicalAlgorithmConfiguration other);
+
         public void FillParent()
         {
             Control controlComponent = GetControlComponent();

@@ -2,10 +2,11 @@
 
 namespace MorphologicalImageProcessing.Core.Algorithms
 {
-    class Closing : MorphologicalAlgorithm<DefaultMorphologicalAlgorithmConfiguration>
+    class Opening : MorphologicalAlgorithm<DefaultMorphologicalAlgorithmConfiguration>
     {
-        private Erosion _erosion = new Erosion();
-        private Dilatation _dilatation = new Dilatation();
+
+        private readonly Erosion _erosion = new Erosion();
+        private readonly Dilatation _dilatation = new Dilatation();
 
         protected override Bitmap Apply(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration)
         {
@@ -14,13 +15,13 @@ namespace MorphologicalImageProcessing.Core.Algorithms
 
         public override string GetName()
         {
-            return "Closing";
+            return "Opening";
         }
 
         private Bitmap DrawEdges(Bitmap image, DefaultMorphologicalAlgorithmConfiguration configuration)
         {
-            image = _dilatation.Apply(image, configuration);
             image = _erosion.Apply(image, configuration);
+            image = _dilatation.Apply(image, configuration);
             return image;
         }
     }

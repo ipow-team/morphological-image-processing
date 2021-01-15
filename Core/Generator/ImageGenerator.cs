@@ -82,12 +82,15 @@ namespace morphological_image_processing_wpf.Core.Generator
             g.DrawLines(pen, pointList.ToArray());
         }
 
-        public Bitmap GeneratePicture(int numberOfShapes, int maxNumberOfEdges, int maxStrokeThickness)
+        public Bitmap GeneratePicture(GeneratorConfiguration configuration)
         {
             Bitmap bitmap = new Bitmap(bitmapWidth, bitmapHeight);
             Graphics graphics = Graphics.FromImage(bitmap);
-            
-            for(int i = 0; i <numberOfShapes; i++)
+            for (int i = 0; i < bitmapWidth; i++)
+                for (int j = 0; j < bitmapHeight; j++)
+                    bitmap.SetPixel(i, j, Color.White);
+
+            for (int i = 0; i < configuration.NumberOfShapes; i++)
             {
                 int minX = rand.Next(100, 200);
                 int maxX = rand.Next(minX, bitmapWidth);
@@ -102,13 +105,13 @@ namespace morphological_image_processing_wpf.Core.Generator
                 switch (rand.Next(0, 3))
                 {
                     case 0:
-                        DrawEllipse(graphics, maxStrokeThickness, minX, maxX, minY, maxY, isFilled, moveX, moveY);
+                        DrawEllipse(graphics, configuration.MaxStrokeThickness, minX, maxX, minY, maxY, isFilled, moveX, moveY);
                         break;
                     case 1:
-                        DrawPolygon(graphics, maxNumberOfEdges, maxStrokeThickness, minX, maxX, minY, maxY, isFilled, moveX, moveY);
+                        DrawPolygon(graphics, configuration.MaxNumberOfEdges, configuration.MaxStrokeThickness, minX, maxX, minY, maxY, isFilled, moveX, moveY);
                         break;
                     case 2:
-                        DrawPolyline(graphics, maxNumberOfEdges, maxStrokeThickness, minX, maxX, minY, maxY, moveX, moveY);
+                        DrawPolyline(graphics, configuration.MaxNumberOfEdges, configuration.MaxStrokeThickness, minX, maxX, minY, maxY, moveX, moveY);
                         break;
                 }
             }
