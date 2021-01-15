@@ -58,20 +58,27 @@ namespace morphological_image_processing_wpf.Core.ChangesDetection
                     }
                 }
 
+                string result;
+
                 if (hasThinLine)
                 {
-                    if (hasOnlyThickLines)
-                        return "Possible opening. Others operators probably not possible.";
+                    if (hasOnlyThickLines || !hasHoles)
+                        result = "Possible closing. Others operators probably not possible.";
                     else
-                        return "Possible erosion.";
+                        result = "Possible erosion.";
 
-                } else if (hasOnlyThickLines || !hasHoles)
+                } else if (hasOnlyThickLines)
                 {
-                    return "Dilatation very possible.";
+                    if (hasHoles)
+                        result = "Dilatation or opening possible.";
+                    else
+                        result = "Dilatation possible.";
                 } else
                 {
-                    return "Hard to recognize image features";
+                    result = "Hard to recognize image features";
                 }
+
+                return result;
             }
         }
     }
