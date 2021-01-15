@@ -1,6 +1,5 @@
-﻿using MorphologicalImageProcessing.Core.Algorithms;
+using morphological_image_processing_wpf.Core.Algorithms;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 
 namespace morphological_image_processing_wpf.Core.ChangesDetection
@@ -17,7 +16,6 @@ namespace morphological_image_processing_wpf.Core.ChangesDetection
             NoiseDetection noiseDetection = new NoiseDetection(brightnessThreshold);
             ThickLinesDetection thickLinesDetection = new ThickLinesDetection(brightnessThreshold);
             ThinLinesDetection thinLinesDetection = new ThinLinesDetection(brightnessThreshold);
-            Trace.WriteLine(shapes.Count);
 
             bool hasNoise = noiseDetection.detectNoise(new DirectBitmap(image));
 
@@ -59,8 +57,6 @@ namespace morphological_image_processing_wpf.Core.ChangesDetection
                         break;
                     }
                 }
-
-                Trace.WriteLine(hasOnlyThickLines);
 
                 if (hasThinLine)
                 {

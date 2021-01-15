@@ -1,6 +1,4 @@
-﻿using morphological_image_processing_wpf.Core.Algorithms;
-using morphological_image_processing_wpf.Core.Algorithms.Advanced;
-using morphological_image_processing_wpf.Core.ChangesDetection;
+﻿using morphological_image_processing_wpf.Core.Algorithms.Advanced;
 using MorphologicalImageProcessing.Core.Algorithms;
 using System.Collections.Generic;
 namespace MorphologicalImageProcessing.Core.Services
@@ -12,8 +10,7 @@ namespace MorphologicalImageProcessing.Core.Services
             new Erosion(),
             new Opening(),
             new Closing(),
-            new CompassEdgeDetection(),
-            new DetectChanges()
+            new CompassEdgeDetection()
         };
 
         public IList<IAlgorithm> GetAllAlgorithms()

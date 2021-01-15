@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Win32;
 using morphological_image_processing_wpf.Core.Algorithms.Advanced.Configs;
+using morphological_image_processing_wpf.Core.ChangesDetection;
 using morphological_image_processing_wpf.Core.Converters;
 using morphological_image_processing_wpf.Core.Generator;
 using MorphologicalImageProcessing.Core.Algorithms;
