@@ -1,4 +1,5 @@
-﻿using MorphologicalImageProcessing.Core.Algorithms;
+﻿using morphological_image_processing_wpf.Core.Algorithms.Advanced.Configs;
+using MorphologicalImageProcessing.Core.Algorithms;
 using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
@@ -14,7 +15,8 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
 
         private static readonly AlgoritmConfigurationDictionary _algorithmConfigurationsDictionary = new AlgoritmConfigurationDictionary()
             {
-                { typeof(DefaultMorphologicalAlgorithmConfiguration), new DefaultAlgorithmConfigurationComponent() }
+                { typeof(DefaultMorphologicalAlgorithmConfiguration), new DefaultAlgorithmConfigurationComponent() },
+                { typeof(CompassEdgeConfiguration), new CompassEdgeConfigurationComponent() }
             };
 
         public BaseAlgorithmConfigurationComponent()
@@ -112,8 +114,12 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
         public void SetCurrentConfiguration(IAlgorithm newAlgorithm, IMorphologicalAlgorithmConfiguration config)
         {
             CurrentAlgorithm = newAlgorithm;
-            _CurrentConfigurationComponent.GetConfiguration()
-                .SetValuesFrom(config);
+            _CurrentConfigurationComponent = _configurations[newAlgorithm.GetConfigurationClass()];
+            if(_CurrentConfigurationComponent.GetConfiguration() != config)
+            {
+                _CurrentConfigurationComponent.GetConfiguration().SetValuesFrom(config);
+            }
+            _CurrentConfigurationComponent.SetValuesFrom(config);
         }
 
         public IMorphologicalAlgorithmConfiguration GetCurrentAlgorithmConfiguration()

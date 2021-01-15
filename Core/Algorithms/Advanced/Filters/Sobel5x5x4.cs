@@ -34,5 +34,10 @@ namespace morphological_image_processing_wpf.Core.Algorithms.Advanced.Filters
         {
             return _rotation;
         }
+
+        public GridSizes GetGridSize()
+        {
+            return GridSizes.Big;
+        }
     }
 }

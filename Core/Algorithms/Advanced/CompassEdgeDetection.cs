@@ -16,9 +16,9 @@ namespace morphological_image_processing_wpf.Core.Algorithms.Advanced
 
         protected override Bitmap Apply(Bitmap image, CompassEdgeConfiguration configuration)
         {
-            if (configuration.SelectedFilter == null)
+            if (configuration.GetSelectedFilter() == null)
                 return image;
-            return _convolution.Apply(image, configuration.SelectedFilter);
+            return _convolution.Apply(image, configuration.GetSelectedFilter());
         }
     }
 }

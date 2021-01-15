@@ -1,6 +1,5 @@
 ﻿using MorphologicalImageProcessing.Core.Algorithms;
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows;
@@ -14,7 +13,7 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
     public partial class DefaultAlgorithmConfigurationComponent : UserControl, IConfigurationComponent
     {
 
-        private readonly DefaultMorphologicalAlgorithmConfiguration configuration = new DefaultMorphologicalAlgorithmConfiguration();
+        private readonly DefaultMorphologicalAlgorithmConfiguration configuration = DefaultMorphologicalAlgorithmConfiguration.create();
         public DefaultAlgorithmConfigurationComponent()
         {
             InitializeComponent();
@@ -57,22 +56,26 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
 
         private void OnSelectedCenterChangedAction(Tuple<int, int> selectedCenter)
         {
-            if(selectedCenter == null)
+            if (selectedCenter == null)
             {
-                // add validations
-                throw new Exception("Center cannot be empty");
+                MessageBox.Show("Center cannot be empty", "Error message", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            configuration.Center = selectedCenter;
+            else
+            {
+                configuration.Center = selectedCenter;
+            }
         }
 
         private void OnShapeChangedAction(ISet<Tuple<int, int>> shape)
         {
-            if(shape.Count < 1)
+            if (shape.Count < 1)
             {
-                // add validations
-                throw new Exception("Shape cannot be empty");
+                MessageBox.Show("Shape cannot be empty", "Error message", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            configuration.StructuralElementPoints = shape;
+            else
+            {
+                configuration.StructuralElementPoints = shape;
+            }
         }
 
         public void SetValuesFrom(IMorphologicalAlgorithmConfiguration other)
@@ -86,7 +89,10 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
 
         private void SetValuesFrom(DefaultMorphologicalAlgorithmConfiguration other)
         {
-            configuration.SetValuesFrom(other);
+            if (configuration != other)
+            {
+                configuration.SetValuesFrom(other);
+            }
             BrightnessThresholdSelector.Value = other.BrightnessThreshold;
             LineColorPicker.SelectedColor = ConvertColor(other.LineColor);
             KernelSelectorComponent.SetShape(other.StructuralElementPoints);

@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Win32;
+using morphological_image_processing_wpf.Core.Algorithms.Advanced.Configs;
 using morphological_image_processing_wpf.Core.Converters;
 using morphological_image_processing_wpf.Core.Generator;
 using MorphologicalImageProcessing.Core.Algorithms;
@@ -60,7 +61,21 @@ namespace morphological_image_processing_wpf
                 ShowErrorDialog("Algorithm has to have atleast empty configuration.");
                 return;
             }
-            await RunAlgorithm(beforeImage, selectedAlgorithm, currentConfiguration);
+            try
+            {
+                await RunAlgorithm(beforeImage, selectedAlgorithm, currentConfiguration);
+            } 
+            catch (Exception ex)
+            {
+                string cause = "Exception encountered while running algorithm: " + ex.Message;
+                MessageBox.Show(cause, "Exception encountered", MessageBoxButton.OK, MessageBoxImage.Error);
+            } 
+            finally
+            {
+                StartProcessingButton.IsEnabled = true;
+                LoadImageButton.IsEnabled = true;
+                GenerateImageButton.IsEnabled = true;
+            }
         }
 
         private async Task RunAlgorithm(Bitmap beforeImage, IAlgorithm selectedAlgorithm, IMorphologicalAlgorithmConfiguration currentConfiguration)
@@ -73,9 +88,6 @@ namespace morphological_image_processing_wpf
                 return selectedAlgorithm.Apply(beforeImage, currentConfiguration);
             });
             SideBySideImagesComponent.SetAfterImageFromBitmap(afterImage);
-            StartProcessingButton.IsEnabled = true;
-            LoadImageButton.IsEnabled = true;
-            GenerateImageButton.IsEnabled = true;
         }
 
         private void ShowErrorDialog(string errorMessage)
@@ -123,6 +135,9 @@ namespace morphological_image_processing_wpf
                 case "EmptyMorphologicalAlgorithmConfiguration":
                     ApplyConfiguration<EmptyMorphologicalAlgorithmConfiguration>(algorithm, jsonString);
                     break;
+                case "CompassEdgeConfiguration":
+                    ApplyConfiguration<CompassEdgeConfiguration>(algorithm, jsonString);
+                    break;
                 default:
                     throw new Exception("Unknown configuration type");
             }
@@ -130,7 +145,11 @@ namespace morphological_image_processing_wpf
 
         private void ApplyConfiguration<T>(IAlgorithm algorithm, string jsonString) where T : IMorphologicalAlgorithmConfiguration
         {
-            AlgorithmSelectionComponent.SetCurrentConfiguration(algorithm, JsonConvert.DeserializeObject<Configuration<T>>(jsonString, new ColorJsonConverter()).Config);
+            Configuration<T> config = JsonConvert.DeserializeObject<Configuration<T>>(jsonString, new JsonConverter[] { new ColorJsonConverter(), new CustomConfigConverter() });
+            IMorphologicalAlgorithmConfiguration deserializedConfig = config.Config;
+            AlgorithmSelectionComponent.SetCurrentConfiguration(algorithm, deserializedConfig);
+            GeneratorConfiguration generatorConfiguration = config.GeneratorConfig;
+            ImageGeneratorConfigurationComponent.SetFromExternalConfiguration(generatorConfiguration);
         }
 
         private void SaveConfiguratioButton_Click(object sender, RoutedEventArgs e)

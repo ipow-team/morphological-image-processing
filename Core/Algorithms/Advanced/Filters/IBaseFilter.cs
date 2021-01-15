@@ -1,8 +1,9 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace morphological_image_processing_wpf.Core.Algorithms.Filters
 {
-    interface IBaseFilter
+    public interface IBaseFilter
     {
         string GetName();
 
@@ -11,6 +12,13 @@ namespace morphological_image_processing_wpf.Core.Algorithms.Filters
         double[,] GetBaseKernel();
 
         double GetRotation();
+
+        GridSizes GetGridSize();
+
+        public bool IsMutable()
+        {
+            return false;
+        }
 
         public static double[,,] RotateMatrix(double[,] baseKernel, double degrees)
         {
@@ -36,6 +44,26 @@ namespace morphological_image_processing_wpf.Core.Algorithms.Filters
             }
 
             return kernel;
+        }
+    }
+
+    public enum GridSizes
+    {
+        [Description("Small (3x3)")]
+        Small = 0,
+        [Description("Big (5x5)")]
+        Big = 1
+    }
+
+    public static class GridSizeEnumExtension
+    {
+        public static string ToDescriptionString(this GridSizes val)
+        {
+            DescriptionAttribute[] attributes = (DescriptionAttribute[])val
+               .GetType()
+               .GetField(val.ToString())
+               .GetCustomAttributes(typeof(DescriptionAttribute), false);
+            return attributes.Length > 0 ? attributes[0].Description : string.Empty;
         }
     }
 }

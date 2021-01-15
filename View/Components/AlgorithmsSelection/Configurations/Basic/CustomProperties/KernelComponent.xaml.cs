@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -105,12 +106,30 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
 
         public void SetShape(ISet<Tuple<int, int>> shape)
         {
-            _kernelShapeGrid.GetElements().ForEach(element => RemoveShapePosition(element));
+            PositionedRadioButton previousCenter = _selectedCenter;
+            _selectedCenter = null;
+            Tuple<int, int> lastElementPos = null;
             foreach (Tuple<int, int> position in shape)
             {
+                if(previousCenter != null && position.Item1 == previousCenter.GetXPosition() && position.Item2 == previousCenter.GetYPosition())
+                {
+                    _selectedCenter = previousCenter;
+                }
                 PositionedCheckBox shapePosition = _kernelShapeGrid.GetElement(position.Item1, position.Item2);
                 AddShapePosition(shapePosition);
+                if(shapePosition.GetElement().IsChecked != null && shapePosition.GetElement().IsChecked == true)
+                {
+                    lastElementPos = Tuple.Create(position.Item1, position.Item2);
+                }
             }
+            if(_selectedCenter == null && lastElementPos != null)
+            {
+                _selectedCenter = _centralPointGrid.GetElement(lastElementPos.Item1, lastElementPos.Item2);
+            }
+            _kernelShapeGrid.GetElements()
+                .Where(element => !shape.Contains(Tuple.Create(element.GetXPosition(), element.GetYPosition())))
+                .ToList()
+                .ForEach(element => RemoveShapePosition(element));
         }
 
         private void AddShapePosition(PositionedCheckBox positionedCheckBox)
@@ -125,15 +144,23 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
         private void RemoveShapePosition(PositionedCheckBox positionedCheckBox)
         {
             PositionedRadioButton positionedRadioButton = _centralPointGrid.GetElement(positionedCheckBox.GetXPosition(), positionedCheckBox.GetYPosition());
-            RadioButton radioButton = positionedRadioButton.GetElement();
-            radioButton.IsEnabled = false;
             if(_selectedCenter != null && positionedRadioButton != null && positionedRadioButton.Equals(_selectedCenter))
             {
-                SetSelectedCenter(null);
+                positionedCheckBox.GetElement().IsChecked = true;
+                MessageBox.Show(
+                    "Cannot remove point from shape, because it's the currently selected center, please select a different center and then change shape", 
+                    "Error message", 
+                    MessageBoxButton.OK, 
+                    MessageBoxImage.Error);
+            } 
+            else
+            {
+                RadioButton radioButton = positionedRadioButton.GetElement();
+                radioButton.IsEnabled = false;
+                positionedCheckBox.GetElement().IsChecked = false;
+                _kernelShape.Remove(positionedCheckBox);
+                _onKernelShapeChangedActions.ForEach(action => action.Invoke(GetShape()));
             }
-            positionedCheckBox.GetElement().IsChecked = false;
-            _kernelShape.Remove(positionedCheckBox);
-            _onKernelShapeChangedActions.ForEach(action => action.Invoke(GetShape()));
         }
 
         public void AddOnCenterChangedAction(Action<Tuple<int, int>> onSelectedCenterChangedAction)

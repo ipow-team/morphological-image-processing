@@ -5,8 +5,26 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:morphological_image_processing_wpf.View.Components.AlgorithmsSelection.Configurations"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+             d:DesignHeight="450" d:DesignWidth="200">
+    <DockPanel Height="Auto" Width="Auto" LastChildFill="True" Margin="0,0,0,0">
+        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Vertical">
+            <Label Content="Select Filter" HorizontalAlignment="Center" VerticalAlignment="Top" Width="180"/>
+            <ComboBox x:Name="MethodComboBox" HorizontalAlignment="Center" VerticalAlignment="Top" Width="180" Height="28" SelectionChanged="MethodComboBox_SelectionChanged" />
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Vertical">
+            <Label Content="Select Grid Size" HorizontalAlignment="Center" VerticalAlignment="Top" Width="180"/>
+            <ComboBox x:Name="GridSizeComboBox" HorizontalAlignment="Center" VerticalAlignment="Top" Width="180" Height="28" SelectionChanged="GridSizeComboBox_SelectionChanged" />
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Vertical">
+            <Label Content="Rotation" HorizontalAlignment="Center" VerticalAlignment="Top" Width="180"/>
+            <StackPanel HorizontalAlignment="Center" DockPanel.Dock="Top" VerticalAlignment="Center" Orientation="Horizontal" Width="180">
+                <Slider x:Name="RotationSlider" Width="119" Minimum="0" Maximum="90" Margin="5,5,5,5" SmallChange="1" LargeChange="15" TickFrequency="1" ValueChanged="RotationSlider_ValueChanged" TickPlacement="TopLeft"/>
+                <TextBox Name="RotationSliderValue" Width="40" IsEnabled="False" Margin="5,5,5,5" />
+            </StackPanel>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Stretch" DockPanel.Dock="Top"  VerticalAlignment="Stretch" Orientation="Vertical">
+            <Label x:Name="TextBoxGridLabel" Content="Kernel" Width="180" />
+            <Grid x:Name="TextBoxGrid" HorizontalAlignment="Center" VerticalAlignment="Top" Width="180" />
+        </StackPanel>
+    </DockPanel>
 </UserControl>

@@ -25,12 +25,17 @@ namespace morphological_image_processing_wpf.Core.Algorithms.Advanced.Filters
 
         public string GetName()
         {
-            return "Prewit3x3x4";
+            return "Prewit3x3x8";
         }
 
         public double GetRotation()
         {
             return _rotation;
+        }
+
+        public GridSizes GetGridSize()
+        {
+            return GridSizes.Small;
         }
     }
 }

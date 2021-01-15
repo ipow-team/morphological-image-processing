@@ -13,6 +13,8 @@ namespace morphological_image_processing_wpf.Core.Algorithms.Advanced.Filters
 
         private static double _rotation = 45;
 
+        private static GridSizes _gridSize = GridSizes.Small;
+
         public double[,] GetBaseKernel()
         {
             return _baseKernel;
@@ -31,6 +33,11 @@ namespace morphological_image_processing_wpf.Core.Algorithms.Advanced.Filters
         public double GetRotation()
         {
             return _rotation;
+        }
+
+        public GridSizes GetGridSize()
+        {
+            return GridSizes.Small;
         }
     }
 }

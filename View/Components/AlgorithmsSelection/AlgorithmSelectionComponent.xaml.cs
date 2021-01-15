@@ -48,7 +48,7 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
             {
                 if(entry.Name.Equals(algorithmName))
                 {
-                    _algorithmSelectionViewModel.SelectedAlgorithmEntry = entry;
+                    AlgorithmComboBox.SelectedItem = entry;
                 }
             }
         }
