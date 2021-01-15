@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Win32;
+using morphological_image_processing_wpf.Core.ChangesDetection;
 using morphological_image_processing_wpf.Core.Converters;
 using morphological_image_processing_wpf.Core.Generator;
 using MorphologicalImageProcessing.Core.Algorithms;
@@ -63,16 +64,47 @@ namespace morphological_image_processing_wpf
             await RunAlgorithm(beforeImage, selectedAlgorithm, currentConfiguration);
         }
 
+        private async void DetectAlgorithmBtnClick(object sender, RoutedEventArgs e)
+        {
+            Bitmap beforeImage = SideBySideImagesComponent.GetBeforeImage();
+            if (beforeImage == null)
+            {
+                ShowErrorDialog("You have to load an image");
+                return;
+            }
+            await RunDetection(beforeImage);
+        }
+
+        private async Task RunDetection(Bitmap image)
+        {
+            StartProcessingButton.IsEnabled = false;
+            LoadImageButton.IsEnabled = false;
+            GenerateImageButton.IsEnabled = false;
+            DetectAlgorithmButton.IsEnabled = false;
+            DetectChanges detection = new DetectChanges();
+            String result = await Task.Run(() =>
+            {
+                return detection.Apply(image);
+            });
+            AlgorithmDetectionTextBox.Text = result;
+            DetectAlgorithmButton.IsEnabled = true;
+            StartProcessingButton.IsEnabled = true;
+            LoadImageButton.IsEnabled = true;
+            GenerateImageButton.IsEnabled = true;
+        }
+
         private async Task RunAlgorithm(Bitmap beforeImage, IAlgorithm selectedAlgorithm, IMorphologicalAlgorithmConfiguration currentConfiguration)
         {
             StartProcessingButton.IsEnabled = false;
             LoadImageButton.IsEnabled = false;
             GenerateImageButton.IsEnabled = false;
+            DetectAlgorithmButton.IsEnabled = false;
             Bitmap afterImage = await Task.Run(() =>
             {
                 return selectedAlgorithm.Apply(beforeImage, currentConfiguration);
             });
             SideBySideImagesComponent.SetAfterImageFromBitmap(afterImage);
+            DetectAlgorithmButton.IsEnabled = true;
             StartProcessingButton.IsEnabled = true;
             LoadImageButton.IsEnabled = true;
             GenerateImageButton.IsEnabled = true;

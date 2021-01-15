@@ -28,7 +28,7 @@ namespace MorphologicalImageProcessing.Core.Algorithms
             {
                 for (int j = 0; j < edges.Height; j++)
                 {
-                    Boolean is_edge = false;
+                    Boolean isEdge = false;
                     List<Tuple<int, int>> pointsToCheck = CalculatePointsToCheck(configuration.StructuralElementPoints, configuration.Center);
 
                     foreach(Tuple<int, int> point in pointsToCheck)
@@ -37,11 +37,11 @@ namespace MorphologicalImageProcessing.Core.Algorithms
                         int y = j - point.Item2;
 
                         if(x >= 0 && x < edges.Width && y >= 0 && y < edges.Height && image.GetPixel(x, y).GetBrightness() < configuration.BrightnessThreshold) {
-                            is_edge = true;
+                            isEdge = true;
                         }
                     }
                     
-                    if (is_edge && image.GetPixel(i, j).GetBrightness() > configuration.BrightnessThreshold)
+                    if (isEdge && image.GetPixel(i, j).GetBrightness() > configuration.BrightnessThreshold)
                     {
                         edges.SetPixel(i, j, configuration.LineColor);
                     }

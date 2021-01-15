@@ -13,8 +13,7 @@ namespace MorphologicalImageProcessing.Core.Services
             new Closing(),
             new Sobel(),
             new Prewitt(),
-            new Kirsch(),
-            new DetectChanges()
+            new Kirsch()
         };
 
         public IList<IAlgorithm> GetAllAlgorithms()

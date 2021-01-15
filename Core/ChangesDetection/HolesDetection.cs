@@ -1,36 +1,36 @@
 ﻿using morphological_image_processing_wpf.Core.Algorithms;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 
 namespace morphological_image_processing_wpf.Core.ChangesDetection
 {
-    class ImageSplit 
+    class HolesDetection
     {
-        readonly DirectBitmap image;
         bool[,] visitedPixels;
         bool[,] pixelsInQueue;
         bool[,] pixelsInHelperQueue;
-        readonly int imageWidth;
-        readonly int imageHeight;
-        readonly List<DirectBitmap> figures;
+        int imageWidth;
+        int imageHeight;
+        List<DirectBitmap> figures;
         bool isFigureFound;
+        readonly double brightnessThreshold;
 
-        public ImageSplit(Bitmap image)
+        public HolesDetection(double brightnessThreshold)
         {
-            this.image = new DirectBitmap(image);
+            this.brightnessThreshold = brightnessThreshold;
+        }
+
+        public bool detectHoles(DirectBitmap image)
+        {
             imageWidth = image.Width;
             imageHeight = image.Height;
+            isFigureFound = false;
+            figures = new List<DirectBitmap>();
             this.visitedPixels = new bool[imageWidth, imageHeight];
             this.pixelsInQueue = new bool[imageWidth, imageHeight];
             this.pixelsInHelperQueue = new bool[imageWidth, imageHeight];
-            isFigureFound = false;
-            figures = new List<DirectBitmap>();
-        }
 
-        public List<DirectBitmap> LookForShapes()
-        {
             for (int i = 0; i < imageWidth; i++)
             {
                 for (int j = 0; j < imageHeight; j++)
@@ -48,7 +48,7 @@ namespace morphological_image_processing_wpf.Core.ChangesDetection
             Queue<Tuple<int, int>> helperQueue = new Queue<Tuple<int, int>>();
 
             pixelsToVisit.Enqueue(Tuple.Create(0, 0));
-            
+
             while (pixelsToVisit.Count > 0 || helperQueue.Count > 0)
             {
                 Tuple<int, int> currentPixel;
@@ -56,18 +56,18 @@ namespace morphological_image_processing_wpf.Core.ChangesDetection
                 if (helperQueue.Count > 0)
                 {
                     currentPixel = helperQueue.Dequeue();
-                } 
+                }
                 else
                 {
                     isFigureFound = false;
                     currentPixel = pixelsToVisit.Dequeue();
                 }
-               
-                if (IsPartOfFigure(currentPixel.Item1, currentPixel.Item2))
+
+                if (IsPartOfFigure(currentPixel.Item1, currentPixel.Item2, image))
                 {
                     helperQueue = AddNeighbourhoodToCheck(helperQueue, currentPixel.Item1, currentPixel.Item2, true);
-                    AddPixelToFigure(currentPixel);
-                } 
+                    AddPixelToFigure();
+                }
                 else
                 {
                     pixelsToVisit = AddNeighbourhoodToCheck(pixelsToVisit, currentPixel.Item1, currentPixel.Item2, false);
@@ -75,7 +75,7 @@ namespace morphological_image_processing_wpf.Core.ChangesDetection
 
                 while (pixelsToVisit.Count == 0 && helperQueue.Count == 0 && xx < imageWidth && yy < imageHeight)
                 {
-                    if(!visitedPixels[xx, yy])
+                    if (!visitedPixels[xx, yy])
                     {
                         pixelsToVisit.Enqueue(Tuple.Create(xx, yy));
                         pixelsInQueue[xx, yy] = true;
@@ -90,14 +90,18 @@ namespace morphological_image_processing_wpf.Core.ChangesDetection
                     }
                 }
             }
-            return figures;
+
+            if (figures.Count > 1)
+                return true;
+            else
+                return false;
         }
 
-        private bool IsPartOfFigure(int x, int y)
+        private bool IsPartOfFigure(int x, int y, DirectBitmap image)
         {
             bool result = false;
 
-            if (visitedPixels[x, y] == false && image.GetPixel(x, y).GetBrightness() < 0.5)
+            if (visitedPixels[x, y] == false && image.GetPixel(x, y).GetBrightness() > brightnessThreshold)
             {
                 result = true;
             }
@@ -129,19 +133,17 @@ namespace morphological_image_processing_wpf.Core.ChangesDetection
                     }
                 }
             }
-            
+
             return queue;
         }
 
-        private void AddPixelToFigure(Tuple<int, int> pixel)
+        private void AddPixelToFigure()
         {
             if (!isFigureFound)
             {
                 isFigureFound = true;
                 figures.Add(new DirectBitmap(imageWidth, imageHeight));
             }
-
-            figures[^1].SetPixel(pixel.Item1, pixel.Item2, Color.Black);
         }
     }
 }
