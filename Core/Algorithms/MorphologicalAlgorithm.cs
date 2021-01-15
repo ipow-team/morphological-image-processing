@@ -56,18 +56,13 @@ namespace MorphologicalImageProcessing.Core.Algorithms
         void SetValuesFrom(IMorphologicalAlgorithmConfiguration other);
     }
 
-    class DefaultMorphologicalAlgorithmConfiguration : IMorphologicalAlgorithmConfiguration
+    public class DefaultMorphologicalAlgorithmConfiguration : IMorphologicalAlgorithmConfiguration
     {
-        public double BrightnessThreshold { get; set; } = 0.02;
+        public double BrightnessThreshold { get; set; }
 
-        public Color LineColor { get; set; } = Color.Red;
+        public Color LineColor { get; set; }
 
-        private readonly ISet<Tuple<int, int>> _structuralElementShape = new HashSet<Tuple<int, int>>()
-        {
-            Tuple.Create(0, 0), Tuple.Create(0, 1), Tuple.Create(0, 2),
-            Tuple.Create(1, 0), Tuple.Create(1, 1), Tuple.Create(1, 2),
-            Tuple.Create(2, 0), Tuple.Create(2, 1), Tuple.Create(2, 2)
-        };
+        private readonly ISet<Tuple<int, int>> _structuralElementShape;
 
         public ISet<Tuple<int, int>> StructuralElementPoints
         {
@@ -82,7 +77,40 @@ namespace MorphologicalImageProcessing.Core.Algorithms
             }
         }
 
-        public Tuple<int, int> Center { get; set; } = Tuple.Create(1, 1);
+        public Tuple<int, int> Center { get; set; }
+
+        private static ISet<Tuple<int, int>> DefaultStructuralElementShape()
+        {
+            ISet<Tuple<int, int>> points = new HashSet<Tuple<int, int>>();
+
+            for(int i = 0; i < 3; i++)
+            {
+                for(int j = 0; j < 3; j++)
+                {
+                    points.Add(Tuple.Create(i, j));
+                }
+            }
+
+            return points;
+        }
+
+        private DefaultMorphologicalAlgorithmConfiguration()
+        {
+            _structuralElementShape = new HashSet<Tuple<int, int>>();
+        }
+
+        private DefaultMorphologicalAlgorithmConfiguration(double brightnessThreshold, Color lineColor, Tuple<int, int> center, ISet<Tuple<int, int>> shape)
+        {
+            BrightnessThreshold = brightnessThreshold;
+            LineColor = lineColor;
+            Center = center;
+            _structuralElementShape = shape;
+        }
+
+        public static DefaultMorphologicalAlgorithmConfiguration create()
+        {
+            return new DefaultMorphologicalAlgorithmConfiguration(0.02, Color.Red, Tuple.Create(1, 1), DefaultStructuralElementShape());
+        }
 
         public void SetValuesFrom(IMorphologicalAlgorithmConfiguration other)
         {

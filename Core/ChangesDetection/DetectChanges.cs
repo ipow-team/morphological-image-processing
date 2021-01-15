@@ -1,5 +1,4 @@
-﻿using morphological_image_processing_wpf.Core.Algorithms;
-using MorphologicalImageProcessing.Core.Algorithms;
+﻿using MorphologicalImageProcessing.Core.Algorithms;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;

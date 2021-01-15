@@ -25,14 +25,19 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
             InitializeComponent();
             NumberOfShapesSelector.Minimum = 1;
             NumberOfShapesSelector.Maximum = 10;
-            NumberOfShapesSelector.Value = configuration.NumberOfShapes;
+           
 
             NumberOfEdgesSelector.Minimum = 3;
             NumberOfEdgesSelector.Maximum = 10;
-            NumberOfEdgesSelector.Value = configuration.MaxNumberOfEdges;
 
             StrokeThicknessSelector.Minimum = 1;
             StrokeThicknessSelector.Maximum = 15;
+        }
+
+        private void SetValuesFromConfiguration(GeneratorConfiguration configuration)
+        {
+            NumberOfShapesSelector.Value = configuration.NumberOfShapes;
+            NumberOfEdgesSelector.Value = configuration.MaxNumberOfEdges;
             StrokeThicknessSelector.Value = configuration.MaxStrokeThickness;
         }
 
@@ -59,6 +64,7 @@ namespace morphological_image_processing_wpf.View.Components.AlgorithmsSelection
         public void SetFromExternalConfiguration(GeneratorConfiguration otherConfiguration)
         {
             configuration.SetValuesFrom(otherConfiguration);
+            SetValuesFromConfiguration(configuration);
         }
     }
 }
