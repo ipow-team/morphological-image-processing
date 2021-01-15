@@ -34,12 +34,12 @@ namespace MorphologicalImageProcessing.Core.Algorithms
                         int x = i - point.Item1;
                         int y = j - point.Item2;
 
-                        if(x >= 0 && x < edges.Width && y >= 0 && y < edges.Height && image.GetPixel(x, y).GetBrightness() > configuration.BrightnessThreshold) {
+                        if(x >= 0 && x < edges.Width && y >= 0 && y < edges.Height && image.GetPixel(x, y).GetBrightness() < configuration.BrightnessThreshold) {
                             isEdge = true;
                         }
                     }
                     
-                    if (isEdge && image.GetPixel(i, j).GetBrightness() < configuration.BrightnessThreshold)
+                    if (isEdge && image.GetPixel(i, j).GetBrightness() > configuration.BrightnessThreshold)
                     {
                         edges.SetPixel(i, j, configuration.LineColor);
                     }
