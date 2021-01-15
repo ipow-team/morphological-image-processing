@@ -76,6 +76,7 @@ namespace morphological_image_processing_wpf
                 StartProcessingButton.IsEnabled = true;
                 LoadImageButton.IsEnabled = true;
                 GenerateImageButton.IsEnabled = true;
+                DetectAlgorithmButton.IsEnabled = true;
             }
         }
 

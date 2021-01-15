@@ -21,7 +21,7 @@ namespace morphological_image_processing_wpf.Core.ChangesDetection
 
             if (hasNoise)
             {
-                return "Possible closing. Others operators probably not possible.";
+                return "Possible closing. Other operators are probably not possible.";
             }
             else
             {
@@ -62,8 +62,8 @@ namespace morphological_image_processing_wpf.Core.ChangesDetection
 
                 if (hasThinLine)
                 {
-                    if (hasOnlyThickLines || !hasHoles)
-                        result = "Possible closing. Others operators probably not possible.";
+                    if (hasOnlyThickLines)
+                        result = "Possible closing. Other operators are probably not possible.";
                     else
                         result = "Possible erosion.";
 
